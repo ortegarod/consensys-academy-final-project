@@ -1,0 +1,2 @@
+#must deploy your smart contract(s) onto one of the Ethereum test networks
+#describe where your contract live (which testnet and address)

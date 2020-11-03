@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+    <script type="text/javascript" src="node_modules/web3/dist/web3.js"></script>
+    <script type="text/javascript" src="./main.js"></script>
+    <script type="text/javascript" src="./abi.js"></script>
+    <title>Online Marketplace</title>
+</head>
+<body>
+    <h1> Welcome to the decentralized Craigslist! Add your store by paying only 0.001 ether.</h1>
+
+    <div>Connected Wallet Address: <span id="ether_wallet"></span></div>
+    <div><span id="stores_list"></span></div>
+    <div><span id="get_store"></span></div>
+    <h2><label for="storeName">ADD STORE</label></h2><p></p>
+    <input type="text" id="storeName" name="storeName"><br><br>
+    <button type="button" class="addStore" id="addStore">ADD STORE</button>
+
+    <ul id="menu">
+
+    </ul>
+
+    once you add a store, you will be given admin options for your storefront
+
+
+    <!-- <ul id="parent-list">
+        <li id="a">Item A</li>
+        <li id="b">Item B</li>
+        <li id="c">Item C</li>
+        <li id="d">Item D</li>
+        <li id="e">Item E</li>
+        <li id="f">Item F</li>
+    </ul> -->
+
+    <!-- <script type="text/javascript">
+        // locate your element and add the Click Event Listener
+        document.getElementById("parent-list").addEventListener("click",function(e) {
+            // e.target is our targetted element.
+                        // try doing console.log(e.target.nodeName), it will result LI
+            if(e.target && e.target.nodeName == "LI") {
+                console.log(e.target.id + " was clicked");
+            }
+        });
+    </script> -->
+
+    <!-- <script type="text/javascript">
+        // locate your element and add the Click Event Listener
+        document.getElementById("menu").addEventListener("click",function(e) {
+            // e.target is our targetted element.
+            // try doing console.log(e.target.nodeName), it will result LI
+            if(e.target && e.target.nodeName == "LI") {
+                console.log(e.target.id + " was clicked");
+            }
+        });
+    </script> -->
+
+</body>
+</html>

@@ -7,24 +7,48 @@
     <script type="text/javascript" src="node_modules/web3/dist/web3.js"></script>
     <script type="text/javascript" src="./main.js"></script>
     <script type="text/javascript" src="./abi.js"></script>
-    <title>Online Marketplace</title>
+    <script> 
+        $(function(){
+          $("#nav-menu").load("header.html"); 
+        });
+        </script> 
+    <title>Ethereum Marketplace - Home</title>
 </head>
 <body>
-    <h1> Welcome to the decentralized Craigslist! Add your store by paying only 0.001 ether.</h1>
 
-    <div>Connected Wallet Address: <span id="ether_wallet"></span></div>
+    <div id="nav-menu"></div>
+
     <div><span id="stores_list"></span></div>
     <div><span id="get_store"></span></div>
-    <h2><label for="storeName">ADD STORE</label></h2><p></p>
-    <input type="text" id="storeName" name="storeName"><br><br>
-    <button type="button" class="addStore" id="addStore">ADD STORE</button>
 
+<hr>
+
+    <button type="button" class="back-to-directory" id="back-to-directory" style="display:none;">BACK TO STORE DIRECTORY</button>
+    
+    <div id=menu-id>
+    <h2><label for="menu">STORE DIRECTORY:</label></h2><p></p>
     <ul id="menu">
-
     </ul>
+    </div>
 
-    once you add a store, you will be given admin options for your storefront
+    <div id=product-menu-id style=display:none;>
+    <h2><label for="product-menu">PRODUCTS FOR SALE:</label></h2><p></p>
 
+    <ul id="product-menu">
+    </ul>
+    </div>
+
+    <button type="button" class="back-to-product-menu" id="back-to-product-menu" style="display:none;">BACK TO PRODUCT MENU</button>
+
+
+    <div id=product-detail-id style=display:none;>
+
+    <h2><label for="product-detail-menu">PRODUCT DETAILS:</label></h2><p></p>
+
+    <ul id="product-detail-menu">
+    </ul>
+    <button type="button" class="buy-button" id="buy-button" style="display:none;">BUY PRODUCT</button>
+    </div>
 
     <!-- <ul id="parent-list">
         <li id="a">Item A</li>

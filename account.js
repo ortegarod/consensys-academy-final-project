@@ -1,10 +1,9 @@
 var web3 = new Web3(Web3.givenProvider);
 var contractInstance;
-var test = 5;
 
 $(document).ready(function() {
     window.ethereum.enable().then(function(accounts){
-        contractInstance = new web3.eth.Contract(abi, "0x778AC0626969d82F3A336CfD7bea781A58EE7D4c", {from: accounts[0]});
+        contractInstance = new web3.eth.Contract(abi, "0x614e16fbE919a6f6E48c6F0e609F87cdd06bba8A", {from: accounts[0]});
         console.log(contractInstance);
         var account = web3.currentProvider.selectedAddress
         $("#ether_wallet").text(account);
@@ -115,34 +114,10 @@ $(document).ready(function() {
             }
         });
 
-        // contractInstance.methods.products().call()
-        // .then(function(result) {
-        //     console.log(result);
-        //     length = result;
-        //     for (i = 0; i < length; i++) {
-        //         var index = 0;
-        //         contractInstance.methods.storesArray(i).call()
-        //         .then(function(result){
-        //             console.log(result);
-        //             console.log(result[0]);
-        //             var input = result[0];
-        //             var list = document.getElementById("product-menu");
-        //             var item = document.createElement("li");
-        //             item.id = "store_" + index;
-        //             item.innerHTML = input;
-        //             index++;
-        //             list.appendChild(item);
-        //         })
-        //     } 
-        // })
-
     })
 
     $("#addStore").click(addStore)
     $("#add-product").click(addProduct)
-    $("#back-to-directory").click(refresh)
-    $("#back-to-product-menu").click(back)
-
 
 })
 
@@ -179,26 +154,6 @@ function addProduct () {
     }) 
 }
 
-function buyItem () {
-
-    contractInstance.methods.buyItem(1,0).send()
-    .on("receipt", function(receipt){ 
-        console.log(receipt);
-    }) 
-}
-
 function refresh () {
     location.reload();
-}
-
-function back () {
-    // var a = document.getElementById("product-detail-id");
-    // a.style.display = "block";
-    var b = document.getElementById("product-detail-id");
-    b.style.display = "none";
-    var c = document.getElementById("product-menu-id");
-    c.style.display = "block";
-    var d = document.getElementById("back-to-product-menu");
-    d.style.display = "none";
-    $('#product-detail-menu').empty();
 }

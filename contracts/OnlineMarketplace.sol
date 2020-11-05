@@ -12,8 +12,8 @@ contract OnlineMarketplace {
     
     event StoreCreated(string newStoreName, address owner);
     event ProductCreated(string newProductName, uint price, uint SKU, uint quantity, uint ID, address seller);
-    event ProductSold(uint ID, address buyer);
-    event ProductShipped(uint ID, uint trackingNumber);
+    event ProductSold(uint productID, address buyer);
+    event ProductShipped(uint productID, uint trackingNumber);
 
     uint ID;
 
@@ -105,13 +105,13 @@ contract OnlineMarketplace {
         products[storeID].push(a);
     }
     
-    // function buyItem(uint _ID) public payable {
-    //     Products storage c = products[_ID];
-    //     c.sold = true;
-    //     c.buyer = msg.sender;
+    function buyItem(uint _storeID, uint _productID) public payable {
         
-    //     emit ProductSold(_ID, msg.sender);
-    // }
+        Products storage c = products[_storeID][_productID];
+        c.sold = true;
+        
+        emit ProductSold(_productID, msg.sender);
+    }
 
     // function itemShipped(uint _ID, uint _trackingNumber) public {
     //     Products storage c = products[_ID];

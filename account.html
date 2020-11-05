@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+    <script type="text/javascript" src="node_modules/web3/dist/web3.js"></script>
+    <script type="text/javascript" src="./abi.js"></script>
+    <!-- <script type="text/javascript" src="./main.js"></script> -->
+    <script> 
+        $(function(){
+          $("#nav-menu").load("header.html"); 
+        });
+        </script>
+    <title>Ethereum Marketplace - My Account</title>
+</head>
+
+<body>
+
+    <div id="nav-menu"></div>
+    <hr>
+    <div>
+
+        <div>Ethereum Account Address: <span id="ether_wallet"></span></div>
+
+
+        <h2><label for="storeName">ADD STORE</label></h2><p></p>
+        <input type="text" id="storeName" name="storeName"><br><br>
+        <button type="button" class="addStore" id="addStore">ADD STORE</button>
+    </div>
+<hr>
+    <div>
+        <h2><label for="add-product">ADD PRODUCT</label></h2><p></p>
+        <label for="product-name">Product Name:</label>
+        <input type="text" id="product-name" name="product-name"><br><br>
+        <label for="product-price">Price:</label>
+        <input type="text" id="product-price" name="product-price"><br><br>
+        <label for="product-SKU">SKU:</label>
+        <input type="text" id="product-SKU" name="product-SKU"><br><br>
+        <label for="product-quantity">Quantity Available:</label>
+        <input type="text" id="product-quantity" name="product-quantity"><br><br>
+        <label for="product-storeID">Store ID:</label>
+        <input type="text" id="product-storeID" name="product-storeID"><br><br>
+        <button type="button" class="add-product" id="add-product">ADD PRODUCT</button>
+    </div>
+    <hr>
+</body>
+</html>

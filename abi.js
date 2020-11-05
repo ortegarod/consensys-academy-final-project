@@ -48,7 +48,7 @@ var abi = [
       {
         "indexed": false,
         "internalType": "uint256",
-        "name": "ID",
+        "name": "productID",
         "type": "uint256"
       },
       {
@@ -67,7 +67,7 @@ var abi = [
       {
         "indexed": false,
         "internalType": "uint256",
-        "name": "ID",
+        "name": "productID",
         "type": "uint256"
       },
       {
@@ -296,6 +296,25 @@ var abi = [
       }
     ],
     "name": "newProduct",
+    "outputs": [],
+    "stateMutability": "payable",
+    "type": "function",
+    "payable": true
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "uint256",
+        "name": "_storeID",
+        "type": "uint256"
+      },
+      {
+        "internalType": "uint256",
+        "name": "_productID",
+        "type": "uint256"
+      }
+    ],
+    "name": "buyItem",
     "outputs": [],
     "stateMutability": "payable",
     "type": "function",

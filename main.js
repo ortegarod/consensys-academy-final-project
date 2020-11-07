@@ -1,19 +1,15 @@
 var web3 = new Web3(Web3.givenProvider);
 var contractInstance;
-var test = 5;
 
 $(document).ready(function() {
     window.ethereum.enable().then(function(accounts){
-        contractInstance = new web3.eth.Contract(abi, "0x778AC0626969d82F3A336CfD7bea781A58EE7D4c", {from: accounts[0]});
+        contractInstance = new web3.eth.Contract(abi, deployment_address, {from: accounts[0]});
         console.log(contractInstance);
-        var account = web3.currentProvider.selectedAddress
-        $("#ether_wallet").text(account);
         contractInstance.methods.arrayLength().call()
         .then(function(result) {
             console.log(result);
             length = result;
             for (i = 0; i < length; i++) {
-                var index = 1;
                 contractInstance.methods.storesArray(i).call()
                 .then(function(result){
                     console.log(result);
@@ -21,9 +17,8 @@ $(document).ready(function() {
                     var input = result[0];
                     var list = document.getElementById("menu");
                     var item = document.createElement("li");
-                    item.id = index;
+                    item.id = result[2];
                     item.innerHTML = input;
-                    index++;
                     list.appendChild(item);
                 })
             } 
@@ -32,10 +27,7 @@ $(document).ready(function() {
         document.getElementById("menu").addEventListener("click",function(e) {
             // e.target is our targetted element
             // try doing console.log(e.target.nodeName), it will result LI
-
-            ++test;
             if(e.target && e.target.nodeName == "LI") {
-                // if (e.target.id == 0) {
                     console.log(e.target.id + " was clicked");
                     var a = document.getElementById("product-menu-id");
                     a.style.display = "block";
@@ -43,28 +35,29 @@ $(document).ready(function() {
                     b.style.display = "block";
                     var c = document.getElementById("menu-id");
                     c.style.display = "none";
-                            contractInstance.methods.products(e.target.id,0).call()
+                    var d = document.getElementById("storefront-wrapper");
+                    d.style.display = "block";
+                    contractInstance.methods.storesMapping(e.target.id).call()
+                        .then(function(result) {
+                        $('#storefront-header').text(result[0]);
+                    })
+                    contractInstance.methods.getProductsMALength(e.target.id).call()
+                    .then(function(result) {
+                        length = result;
+                        for (i = 0; i < length; i++) {
+                            contractInstance.methods.products(e.target.id,i).call()
                             .then(function(result) {
                                 console.log(result);
                                 var index = 0;
                                 var input = result[0];
                                 var list = document.getElementById("product-menu");
                                 var item = document.createElement("li");
-                                item.id = index;
+                                item.id = result[5];
                                 item.innerHTML = input;
-                                index++;
                                 list.appendChild(item);
-                                // length = result;
-                                // for (i = 0; i < 2; i++) {
-                                //     contractInstance.methods.storesArray(i).call()
-                                //     .then(function(result){
-                                //         console.log(result);
-                                //         console.log(result[0]);
-
-                                //     })
-                                // } 
                             })
-                // }
+                        }
+                    })
             }
         });
 
@@ -72,70 +65,44 @@ $(document).ready(function() {
             // e.target is our targetted element
             // try doing console.log(e.target.nodeName), it will result LI
             if(e.target && e.target.nodeName == "LI") {
-                // if (e.target.id == 0) {
                     console.log(e.target.id + " was clicked");
+                    $('#product-detail-menu').empty();
                     var a = document.getElementById("product-detail-id");
                     a.style.display = "block";
                     var b = document.getElementById("buy-button");
                     b.style.display = "block";
-                    var c = document.getElementById("product-menu-id");
-                    c.style.display = "none";
-                    var d = document.getElementById("back-to-product-menu");
-                    d.style.display = "block";
-                    $("#buy-button").click(buyItem)
-
-                    // var c = document.getElementById("menu");
+                    // var c = document.getElementById("product-menu-id");
                     // c.style.display = "none";
-                    console.log(test);
-
-                            contractInstance.methods.products(1,0).call()
+                    // var d = document.getElementById("back-to-product-menu");
+                    // d.style.display = "block";
+                    $("#buy-button").click(buyItem)
+                            contractInstance.methods.productsMapping(e.target.id).call()
                             .then(function(result) {
                                 console.log(result);
-                                var index = 0;
-                                for (i = 0; i < 10; i++) {
-                                    var input = result[i];
-                                    var list = document.getElementById("product-detail-menu");
-                                    var item = document.createElement("li");
-                                    item.id = index;
-                                    item.innerHTML = input;
-                                    index++;
-                                    list.appendChild(item);
-                                } 
-
- 
-                                // length = result;
-                                //     contractInstance.methods.storesArray(i).call()
-                                //     .then(function(result){
-                                //         console.log(result);
-                                //         console.log(result[0]);
-
-                                //     })
+                                $("#product-name-label").text(result[0]);
+                                $("#product-description-label").text(result[1]);
+                                $("#product-price-label").text(result[2]);
+                                $("#product-SKU-label").text(result[3]);
+                                $("#product-quantity-label").text(result[4]);
+                                // var index = 0;
+                                // for (i = 0; i < 11; i++) {
+                                //     var input = result[i];
+                                //     var list = document.getElementById("product-detail-menu");
+                                //     var item = document.createElement("li");
+                                //     item.id = index;
+                                //     item.innerHTML = input;
+                                //     index++;
+                                //     list.appendChild(item);
+                                // } 
                             })
-                // }
             }
+                                    function buyItem () {
+                                        contractInstance.methods.buyItem(e.target.id).send()
+                                        .on("receipt", function(receipt){ 
+                                            console.log(receipt);
+                                        }) 
+                                    }
         });
-
-        // contractInstance.methods.products().call()
-        // .then(function(result) {
-        //     console.log(result);
-        //     length = result;
-        //     for (i = 0; i < length; i++) {
-        //         var index = 0;
-        //         contractInstance.methods.storesArray(i).call()
-        //         .then(function(result){
-        //             console.log(result);
-        //             console.log(result[0]);
-        //             var input = result[0];
-        //             var list = document.getElementById("product-menu");
-        //             var item = document.createElement("li");
-        //             item.id = "store_" + index;
-        //             item.innerHTML = input;
-        //             index++;
-        //             list.appendChild(item);
-        //         })
-        //     } 
-        // })
-
     })
 
     $("#addStore").click(addStore)
@@ -165,6 +132,7 @@ function addStore () {
 
 function addProduct () {
     var name = $("#product-name").val();
+    var description = $("#product-description").val();
     var price = $("#product-price").val();
     var quantity = $("#product-quantity").val();
     var SKU = $("#product-SKU").val();
@@ -173,19 +141,12 @@ function addProduct () {
         console.log(event);
         console.log(event.returnValues['newProductName']);
     }))
-    contractInstance.methods.newProduct(name, price, SKU, quantity, storeID).send()
+    contractInstance.methods.newProduct(name, description, price, SKU, quantity, storeID).send()
     .on("receipt", function(receipt){ 
         console.log(receipt);
     }) 
 }
 
-function buyItem () {
-
-    contractInstance.methods.buyItem(1,0).send()
-    .on("receipt", function(receipt){ 
-        console.log(receipt);
-    }) 
-}
 
 function refresh () {
     location.reload();

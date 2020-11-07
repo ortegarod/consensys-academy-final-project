@@ -10,8 +10,8 @@ pragma solidity 0.7.0;
 
 contract OnlineMarketplace {
     
-    event StoreCreated(string newStoreName, address owner);
-    event ProductCreated(string newProductName, uint price, uint SKU, uint quantity, uint ID, address seller);
+    event StoreCreated(string newStoreName, address owner, uint storeID);
+    event ProductCreated(string newProductName, uint price, uint SKU, uint quantity, uint uniqueID, address seller, uint storeID);
     event ProductSold(uint productID, address buyer);
     event ProductShipped(uint productID, uint trackingNumber);
 
@@ -25,6 +25,7 @@ contract OnlineMarketplace {
     
     struct Products {
         string name; 
+        string description;
         uint price;
         uint SKU;
         uint quantity;
@@ -38,16 +39,35 @@ contract OnlineMarketplace {
     }
     
     Stores[] public storesArray;
+    mapping (uint => Products) public productsMapping;
+    mapping (uint => Stores) public storesMapping;
+
     
     mapping (address => Stores[]) public stores;
     mapping (uint => Products[]) public products;
     
-    function getID() internal returns (uint) {
+    function getID() public returns (uint) {
         return ++ID;
     }
 
     function arrayLength() public view returns (uint length) {
         return storesArray.length;
+    }
+
+    function getStoresMALength() public view returns (uint) {
+        return stores[msg.sender].length;
+    }
+
+    function getProductsMALength(uint _storeID) public view returns (uint) {
+        return products[_storeID].length;
+    }
+
+    function getProduct(uint _uniqueID) public view returns (string memory) {
+        return productsMapping[_uniqueID].name;
+    }
+
+    function getStore(uint _storeID) public view returns (string memory) {
+        return storesMapping[_storeID].name;
     }
 
     // function getStores() public view returns (string[] memory, address[] memory, uint[] memory) {
@@ -76,39 +96,45 @@ contract OnlineMarketplace {
         a.owner = msg.sender;
         a.storeID = getID();
         
-        insertStore(a);
+        insertStore(a, a.storeID);
         storesArray.push(a);
         
-        emit StoreCreated(_name, msg.sender);
+        emit StoreCreated(_name, msg.sender, a.storeID);
     }
     
-    function insertStore(Stores memory a) private {
+    function insertStore(Stores memory a, uint _storeID) private {
         stores[msg.sender].push(a);
+        storesMapping[_storeID] = a;
     }
     
-    function newProduct(string memory _name, uint _price, uint _SKU, uint _quantity, uint _storeID) public payable {
+    function newProduct(string memory _name, string memory _description, uint _price, uint _SKU, uint _quantity, uint _storeID) public payable {
         Products memory c;
         c.name = _name;
+        c.description = _description;
         c.price = _price;
         c.SKU = _SKU;
         c.quantity = _quantity;
-        c.uniqueID = getID();
+        uint abc = getID();
+        c.uniqueID = abc;
         c.seller = msg.sender;
         c.storeID = _storeID;
         
-        insertProduct(c, _storeID);
-        
-        emit ProductCreated(_name, _price, _SKU, _quantity, ID, msg.sender);
+        insertProduct(c, _storeID, abc);
+
+        emit ProductCreated(_name, _price, _SKU, _quantity, abc, msg.sender, c.storeID);
     }
     
-    function insertProduct(Products memory a, uint storeID) private {
-        products[storeID].push(a);
+    function insertProduct(Products memory c, uint storeID, uint _uniqueID) private {
+        products[storeID].push(c);
+        productsMapping[_uniqueID] = c;
     }
     
-    function buyItem(uint _storeID, uint _productID) public payable {
-        
-        Products storage c = products[_storeID][_productID];
-        c.sold = true;
+    function buyItem(uint _productID) public payable {
+        productsMapping[_productID].sold = true;
+        productsMapping[_productID].buyer = msg.sender;
+
+        // Products storage c = products[_storeID][_productID];
+        // c.sold = true;
         
         emit ProductSold(_productID, msg.sender);
     }
@@ -121,4 +147,8 @@ contract OnlineMarketplace {
     //     emit ProductShipped(_ID, _trackingNumber);
     // }
 
+
+    function owner() public view returns (address) {
+         return msg.sender;
+    }
 }

@@ -5,6 +5,12 @@ $(document).ready(function() {
     window.ethereum.enable().then(function(accounts){
         contractInstance = new web3.eth.Contract(abi, deployment_address, {from: accounts[0]});
         console.log(contractInstance);
+        $("#contract-address").text(contractInstance.options.address);
+        contractInstance.methods.getContractBalance().call()
+        .then(function(result){
+            console.log("contract has " + web3.utils.fromWei(result) + " ETH");
+            $("#contract-balance").text(result + " ETH");
+        })
         contractInstance.methods.arrayLength().call()
         .then(function(result) {
             console.log(result);
@@ -75,13 +81,16 @@ $(document).ready(function() {
                     // c.style.display = "none";
                     // var d = document.getElementById("back-to-product-menu");
                     // d.style.display = "block";
-                    $("#buy-button").click(buyItem)
                             contractInstance.methods.productsMapping(e.target.id).call()
                             .then(function(result) {
                                 console.log(result);
                                 $("#product-name-label").text(result[0]);
                                 $("#product-description-label").text(result[1]);
-                                $("#product-price-label").text(result[2]);
+                                var price = web3.utils.fromWei(result[2], 'ether');
+                                $("#product-price-label").text(price);
+                                var config = {
+                                    value: web3.utils.toWei(price)
+                                }
                                 $("#product-SKU-label").text(result[3]);
                                 $("#product-quantity-label").text(result[4]);
                                 // var index = 0;
@@ -94,14 +103,17 @@ $(document).ready(function() {
                                 //     index++;
                                 //     list.appendChild(item);
                                 // } 
+                                $("#buy-button").click(buyItem)
+
+                                function buyItem () {
+                                    contractInstance.methods.buyItem(e.target.id).send(config)
+                                    .on("receipt", function(receipt){ 
+                                        console.log(receipt);
+                                    }) 
+                                }
                             })
+
             }
-                                    function buyItem () {
-                                        contractInstance.methods.buyItem(e.target.id).send()
-                                        .on("receipt", function(receipt){ 
-                                            console.log(receipt);
-                                        }) 
-                                    }
         });
     })
 
@@ -113,39 +125,39 @@ $(document).ready(function() {
 
 })
 
-function addStore () {
-    var name = $("#storeName").val();
-    contractInstance.once('StoreCreated', {}, (function(error, event){
-        console.log(event.returnValues['newStoreName']);
-        $("#menu").append(event.returnValues['newStoreName']);
-        $("#new_store").add(event.returnValues['newStoreName']);
-    }))
-    contractInstance.methods.newStore(name).send()
-    .on("receipt", function(receipt){ 
-        console.log(receipt);
-        location.reload();
-    }) 
-    .then(function(result){
-        console.log(result);
-    }) 
-}
+// function addStore () {
+//     var name = $("#storeName").val();
+//     contractInstance.once('StoreCreated', {}, (function(error, event){
+//         console.log(event.returnValues['newStoreName']);
+//         $("#menu").append(event.returnValues['newStoreName']);
+//         $("#new_store").add(event.returnValues['newStoreName']);
+//     }))
+//     contractInstance.methods.newStore(name).send()
+//     .on("receipt", function(receipt){ 
+//         console.log(receipt);
+//         location.reload();
+//     }) 
+//     .then(function(result){
+//         console.log(result);
+//     }) 
+// }
 
-function addProduct () {
-    var name = $("#product-name").val();
-    var description = $("#product-description").val();
-    var price = $("#product-price").val();
-    var quantity = $("#product-quantity").val();
-    var SKU = $("#product-SKU").val();
-    var storeID = $("#product-storeID").val();
-    contractInstance.once('ProductCreated', {}, (function(error, event){
-        console.log(event);
-        console.log(event.returnValues['newProductName']);
-    }))
-    contractInstance.methods.newProduct(name, description, price, SKU, quantity, storeID).send()
-    .on("receipt", function(receipt){ 
-        console.log(receipt);
-    }) 
-}
+// function addProduct () {
+//     var name = $("#product-name").val();
+//     var description = $("#product-description").val();
+//     var price = $("#product-price").val();
+//     var quantity = $("#product-quantity").val();
+//     var SKU = $("#product-SKU").val();
+//     var storeID = $("#product-storeID").val();
+//     contractInstance.once('ProductCreated', {}, (function(error, event){
+//         console.log(event);
+//         console.log(event.returnValues['newProductName']);
+//     }))
+//     contractInstance.methods.newProduct(name, description, web3.utils.toWei(price), SKU, quantity, storeID).send()
+//     .on("receipt", function(receipt){ 
+//         console.log(receipt);
+//     }) 
+// }
 
 
 function refresh () {

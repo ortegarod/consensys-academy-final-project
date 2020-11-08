@@ -1,4 +1,4 @@
-var deployment_address = "0x3c87Fc147b8b3A3458d5311f663c6C88849F22DF";
+var deployment_address = "0x02a566f37245bA532ddDf31af8A0dCb2Cedb9b92";
 var abi = [
   {
     "anonymous": false,
@@ -178,7 +178,7 @@ var abi = [
         "type": "address"
       },
       {
-        "internalType": "address",
+        "internalType": "address payable",
         "name": "seller",
         "type": "address"
       },
@@ -189,7 +189,8 @@ var abi = [
       }
     ],
     "stateMutability": "view",
-    "type": "function"
+    "type": "function",
+    "constant": true
   },
   {
     "inputs": [
@@ -252,7 +253,7 @@ var abi = [
         "type": "address"
       },
       {
-        "internalType": "address",
+        "internalType": "address payable",
         "name": "seller",
         "type": "address"
       },
@@ -263,7 +264,8 @@ var abi = [
       }
     ],
     "stateMutability": "view",
-    "type": "function"
+    "type": "function",
+    "constant": true
   },
   {
     "inputs": [
@@ -297,7 +299,8 @@ var abi = [
       }
     ],
     "stateMutability": "view",
-    "type": "function"
+    "type": "function",
+    "constant": true
   },
   {
     "inputs": [
@@ -326,7 +329,8 @@ var abi = [
       }
     ],
     "stateMutability": "view",
-    "type": "function"
+    "type": "function",
+    "constant": true
   },
   {
     "inputs": [
@@ -355,7 +359,8 @@ var abi = [
       }
     ],
     "stateMutability": "view",
-    "type": "function"
+    "type": "function",
+    "constant": true
   },
   {
     "inputs": [],
@@ -381,7 +386,8 @@ var abi = [
       }
     ],
     "stateMutability": "view",
-    "type": "function"
+    "type": "function",
+    "constant": true
   },
   {
     "inputs": [],
@@ -394,7 +400,8 @@ var abi = [
       }
     ],
     "stateMutability": "view",
-    "type": "function"
+    "type": "function",
+    "constant": true
   },
   {
     "inputs": [
@@ -413,7 +420,8 @@ var abi = [
       }
     ],
     "stateMutability": "view",
-    "type": "function"
+    "type": "function",
+    "constant": true
   },
   {
     "inputs": [
@@ -432,7 +440,8 @@ var abi = [
       }
     ],
     "stateMutability": "view",
-    "type": "function"
+    "type": "function",
+    "constant": true
   },
   {
     "inputs": [
@@ -451,7 +460,22 @@ var abi = [
       }
     ],
     "stateMutability": "view",
-    "type": "function"
+    "type": "function",
+    "constant": true
+  },
+  {
+    "inputs": [],
+    "name": "getContractBalance",
+    "outputs": [
+      {
+        "internalType": "uint256",
+        "name": "",
+        "type": "uint256"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function",
+    "constant": true
   },
   {
     "inputs": [
@@ -464,7 +488,8 @@ var abi = [
     "name": "newStore",
     "outputs": [],
     "stateMutability": "payable",
-    "type": "function"
+    "type": "function",
+    "payable": true
   },
   {
     "inputs": [
@@ -502,7 +527,8 @@ var abi = [
     "name": "newProduct",
     "outputs": [],
     "stateMutability": "payable",
-    "type": "function"
+    "type": "function",
+    "payable": true
   },
   {
     "inputs": [
@@ -515,6 +541,21 @@ var abi = [
     "name": "buyItem",
     "outputs": [],
     "stateMutability": "payable",
-    "type": "function"
+    "type": "function",
+    "payable": true
+  },
+  {
+    "inputs": [],
+    "name": "owner",
+    "outputs": [
+      {
+        "internalType": "address",
+        "name": "",
+        "type": "address"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function",
+    "constant": true
   }
 ]

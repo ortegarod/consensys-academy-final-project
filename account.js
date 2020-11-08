@@ -5,6 +5,12 @@ $(document).ready(function() {
     window.ethereum.enable().then(function(accounts){
         contractInstance = new web3.eth.Contract(abi, deployment_address, {from: accounts[0]});
         console.log(contractInstance);
+        $("#contract-address").text(contractInstance.options.address);
+        contractInstance.methods.getContractBalance().call()
+        .then(function(result){
+            console.log("contract has " + web3.utils.fromWei(result) + " ETH");
+            $("#contract-balance").text(result + " ETH");
+        })
         var account = web3.currentProvider.selectedAddress
         $("#ether_wallet").text(account);
         contractInstance.methods.getStoresMALength().call()
@@ -71,7 +77,7 @@ $(document).ready(function() {
                                     contractInstance.once('ProductCreated', {}, (function(error, event){
                                         console.log(event);
                                     }))
-                                    contractInstance.methods.newProduct(name, description, price, SKU, quantity, storeID).send()
+                                    contractInstance.methods.newProduct(name, description, web3.utils.toWei(price), SKU, quantity, storeID).send()
                                     .on("receipt", function(receipt){ 
                                         console.log(receipt);
                                         $('#my-products-menu').empty();
@@ -114,7 +120,7 @@ $(document).ready(function() {
                                 console.log(result);
                                 $("#product-name-label").text(result[0]);
                                 $("#product-description-label").text(result[1]);
-                                $("#product-price-label").text(result[2]);
+                                $("#product-price-label").text(web3.utils.fromWei(result[2], 'ether'));
                                 $("#product-SKU-label").text(result[3]);
                                 $("#product-quantity-label").text(result[4]);
                                 // var index = 0;

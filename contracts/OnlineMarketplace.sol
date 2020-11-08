@@ -34,7 +34,7 @@ contract OnlineMarketplace {
         bool shipped;
         uint trackingNumber;
         address buyer;
-        address seller;
+        address payable seller;
         uint storeID;
     }
     
@@ -68,6 +68,10 @@ contract OnlineMarketplace {
 
     function getStore(uint _storeID) public view returns (string memory) {
         return storesMapping[_storeID].name;
+    }
+
+    function getContractBalance() public view returns (uint) {
+        return address(this).balance;
     }
 
     // function getStores() public view returns (string[] memory, address[] memory, uint[] memory) {
@@ -130,6 +134,8 @@ contract OnlineMarketplace {
     }
     
     function buyItem(uint _productID) public payable {
+        require (msg.value == productsMapping[_productID].price);
+        productsMapping[_productID].seller.transfer(msg.value);
         productsMapping[_productID].sold = true;
         productsMapping[_productID].buyer = msg.sender;
 

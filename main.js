@@ -1,8 +1,13 @@
 var web3 = new Web3(Web3.givenProvider);
 var contractInstance;
+var config;
+var target;
 
 $(document).ready(function() {
     window.ethereum.enable().then(function(accounts){
+        window.ethereum.on('accountsChanged', function (accounts) {
+                    window.location.reload();
+          })
         contractInstance = new web3.eth.Contract(abi, deployment_address, {from: accounts[0]});
         console.log(contractInstance);
         $("#contract-address").text(contractInstance.options.address);
@@ -39,6 +44,8 @@ $(document).ready(function() {
                     a.style.display = "block";
                     var b = document.getElementById("back-to-directory");
                     b.style.display = "block";
+                    $("#back-to-directory").click(refresh)
+
                     var c = document.getElementById("menu-id");
                     c.style.display = "none";
                     var d = document.getElementById("storefront-wrapper");
@@ -68,6 +75,7 @@ $(document).ready(function() {
         });
 
         document.getElementById("product-menu").addEventListener("click",function(e) {
+            target = e.target.id;
             // e.target is our targetted element
             // try doing console.log(e.target.nodeName), it will result LI
             if(e.target && e.target.nodeName == "LI") {
@@ -76,7 +84,9 @@ $(document).ready(function() {
                     var a = document.getElementById("product-detail-id");
                     a.style.display = "block";
                     var b = document.getElementById("buy-button");
-                    b.style.display = "block";
+                    b.style.display = "none";
+                    var c = document.getElementById("out-of-stock");
+                    c.style.display = "none";
                     // var c = document.getElementById("product-menu-id");
                     // c.style.display = "none";
                     // var d = document.getElementById("back-to-product-menu");
@@ -84,42 +94,61 @@ $(document).ready(function() {
                             contractInstance.methods.productsMapping(e.target.id).call()
                             .then(function(result) {
                                 console.log(result);
+                                if (result[4] == 0) {
+                                    c.style.display = "block";
+                                    b.style.display = "none";
+                                } else if (result[4] > 0) {
+                                    b.style.display = "block";
+                                    c.style.display = "none";
+                                }
                                 $("#product-name-label").text(result[0]);
                                 $("#product-description-label").text(result[1]);
                                 var price = web3.utils.fromWei(result[2], 'ether');
                                 $("#product-price-label").text(price);
-                                var config = {
-                                    value: web3.utils.toWei(price)
-                                }
+                                config = { value: web3.utils.toWei(price) }
                                 $("#product-SKU-label").text(result[3]);
                                 $("#product-quantity-label").text(result[4]);
-                                // var index = 0;
-                                // for (i = 0; i < 11; i++) {
-                                //     var input = result[i];
-                                //     var list = document.getElementById("product-detail-menu");
-                                //     var item = document.createElement("li");
-                                //     item.id = index;
-                                //     item.innerHTML = input;
-                                //     index++;
-                                //     list.appendChild(item);
-                                // } 
-                                $("#buy-button").click(buyItem)
 
-                                function buyItem () {
-                                    contractInstance.methods.buyItem(e.target.id).send(config)
-                                    .on("receipt", function(receipt){ 
-                                        console.log(receipt);
-                                    }) 
-                                }
+
                             })
 
             }
+
+
+
+
+
+
         });
+
+
+        $("#buy-button").click(buyItem)
+
+        function buyItem () {
+            contractInstance.methods.buyItem(target).send(config)
+            .on("receipt", function(receipt){ 
+                console.log(receipt);
+                var d = document.getElementById("buy-confirmation");
+                d.style.display = "block";
+                $("#confirmation-details").text("Your order has been sent! Check your order status on your account page.");
+
+                contractInstance.methods.productsMapping(target).call()
+                .then(function(result) {
+                    console.log(result);
+                    $("#product-quantity-label").text(result[4]);
+                })
+            }) 
+            .on("transactionHash", function(hash){
+                $("#tx-confirmation").text(hash);
+            })
+        }
+
+
+
     })
 
-    $("#addStore").click(addStore)
-    $("#add-product").click(addProduct)
-    $("#back-to-directory").click(refresh)
+    // $("#addStore").click(addStore)
+    // $("#add-product").click(addProduct)
     $("#back-to-product-menu").click(back)
 
 

@@ -1,4 +1,4 @@
-var deployment_address = "0x02a566f37245bA532ddDf31af8A0dCb2Cedb9b92";
+var deployment_address = "0x9547a3C45A2C2Be1811a045cfa3b98C1898a3635";
 var abi = [
   {
     "anonymous": false,
@@ -72,13 +72,13 @@ var abi = [
     "anonymous": false,
     "inputs": [
       {
-        "indexed": false,
+        "indexed": true,
         "internalType": "uint256",
         "name": "productID",
         "type": "uint256"
       },
       {
-        "indexed": false,
+        "indexed": true,
         "internalType": "address",
         "name": "buyer",
         "type": "address"

@@ -12,7 +12,7 @@ contract OnlineMarketplace {
     
     event StoreCreated(string newStoreName, address owner, uint storeID);
     event ProductCreated(string newProductName, uint price, uint SKU, uint quantity, uint uniqueID, address seller, uint storeID);
-    event ProductSold(uint productID, address buyer);
+    event ProductSold(uint indexed productID, address indexed buyer);
     event ProductShipped(uint productID, uint trackingNumber);
 
     uint ID;
@@ -135,9 +135,12 @@ contract OnlineMarketplace {
     
     function buyItem(uint _productID) public payable {
         require (msg.value == productsMapping[_productID].price);
+        require (productsMapping[_productID].quantity > 0);
         productsMapping[_productID].seller.transfer(msg.value);
         productsMapping[_productID].sold = true;
         productsMapping[_productID].buyer = msg.sender;
+        productsMapping[_productID].quantity -= 1;
+
 
         // Products storage c = products[_storeID][_productID];
         // c.sold = true;

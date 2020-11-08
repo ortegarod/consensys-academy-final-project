@@ -18,61 +18,63 @@
 </head>
 <body>
     <div id="page-container">
-        <div id="content-wrap">
-    <div id="header"></div>
-    <hr>
-    <div>
-        <div>Ethereum Account Address: <span id="ether_wallet"></span></div>
+    <div id="content-wrap">
+        <div id="header"></div>
         <hr>
-        <label for="storeName"><h2>ADD STORE FOR ONLY 0.001 ETH</h2><p>Store Name:</p></label>
-        <input type="text" id="storeName" name="storeName"><br><br>
-        <button type="button" class="addStore" id="addStore">ADD STORE (COST: 0.005 ETH)</button>
-        <hr>
-        <label for="storeName"><h2>MY STORES:</h2><p>Click on a store to view or add products</p></label>
-        <ul id="store-menu">
-        </ul>
-        <div id="my-products-menu-id" style=display:none>
-        <label for="my-products-menu"><h2>PRODUCTS LISTED:</h2><p>Click on a product to view details</p></label>
-        <ul id="my-products-menu">
-        </ul>
+        <div>
+            <div>Ethereum Account Address: <span id="ether_wallet"></span></div>
+            <hr>
+            <label for="storeName"><h2>ADD STORE FOR ONLY 0.001 ETH</h2><p>Store Name:</p></label>
+            <input type="text" id="storeName" name="storeName"><br><br>
+            <button type="button" class="addStore" id="addStore">ADD STORE (COST: 0.005 ETH):</button>
+            <hr>
+            <label for="storeName"><h2>MY STORES:</h2><p>Click on a store to view or add products</p></label>
+            <ul id="store-menu">
+            </ul>
+            <div id="my-products-menu-id" style=display:none>
+            <label for="my-products-menu"><h2>PRODUCTS LISTED:</h2><p>Click on a product to view details</p></label>
+            <ul id="my-products-menu">
+            </ul>
+            </div>
+            <div id="my-products-detail-menu-id" style=display:none>
+            <label for="my-products-detail-menu"><h2>PRODUCT DETAIL:</h2></label>
+            <label for="product-name-label">Name:</label>
+            <span id="product-name-label"></span><p>
+            <label for="product-description-label">Description:</label>
+            <span id="product-description-label"></span><p>
+            <label for="product-price-label">Price (ETH):</label>
+            <span id="product-price-label"></span><p>
+            <label for="product-SKU-label">SKU:</label>
+            <span id="product-SKU-label"></span><p>
+            <label for="product-quantity-label">Quantity:</label>
+            <span id="product-quantity-label"></span><br>
+            <p></p>
+            <button type="button" class="edit-product-button" id="edit-product-button">EDIT PRODUCT</button>
+            </div>
         </div>
-        <div id="my-products-detail-menu-id" style=display:none>
-        <label for="my-products-detail-menu"><h2>PRODUCT DETAIL:</h2></label>
-        <label for="product-name-label">Name:</label>
-        <span id="product-name-label"></span><p>
-        <label for="product-description-label">Description:</label>
-        <span id="product-description-label"></span><p>
-        <label for="product-price-label">Price (ETH):</label>
-        <span id="product-price-label"></span><p>
-        <label for="product-SKU-label">SKU:</label>
-        <span id="product-SKU-label"></span><p>
-        <label for="product-quantity-label">Quantity:</label>
-        <span id="product-quantity-label"></span><br>
-        <p></p>
-        <!-- <ul id="my-products-detail-menu">
-        </ul> -->
-        <button type="button" class="edit-product-button" id="edit-product-button">EDIT PRODUCT</button>
+        <div id="add-product-form" style=display:none;>
+            <h2>ADD PRODUCT:</h2><p></p>
+            <label for="store-name">Store:</label>
+            <span id="store-name"></span><p>
+            <label for="product-name">Product Name:</label>
+            <input type="text" id="product-name" name="product-name"><p>
+            <label for="product-description">Product Description:</label>
+            <input type="text" id="product-description" name="product-name"><p>
+            <label for="product-price">Price (ETH):</label>
+            <input type="text" id="product-price" name="product-price"><p>
+            <label for="product-SKU">SKU:</label>
+            <input type="text" id="product-SKU" name="product-SKU"><p>
+            <label for="product-quantity">Quantity Available:</label>
+            <input type="text" id="product-quantity" name="product-quantity"><p></p>
+            <!-- <label for="product-storeID">Store ID:</label>
+            <input type="text" id="product-storeID" name="product-storeID"><br><br> -->
+            <button type="button" class="add-product" id="add-product">ADD PRODUCT (COST: 0.001 ETH)</button>
         </div>
-        
-    </div>
-    <div id="add-product-form" style=display:none;>
-        <h2>ADD PRODUCT:</h2><p></p>
-        <label for="store-name">Store:</label>
-        <span id="store-name"></span><p>
-        <label for="product-name">Product Name:</label>
-        <input type="text" id="product-name" name="product-name"><p>
-        <label for="product-description">Product Description:</label>
-        <input type="text" id="product-description" name="product-name"><p>
-        <label for="product-price">Price (ETH):</label>
-        <input type="text" id="product-price" name="product-price"><p>
-        <label for="product-SKU">SKU:</label>
-        <input type="text" id="product-SKU" name="product-SKU"><p>
-        <label for="product-quantity">Quantity Available:</label>
-        <input type="text" id="product-quantity" name="product-quantity"><p></p>
-        <!-- <label for="product-storeID">Store ID:</label>
-        <input type="text" id="product-storeID" name="product-storeID"><br><br> -->
-        <button type="button" class="add-product" id="add-product">ADD PRODUCT (COST: 0.001 ETH)</button>
-    </div>
+        <div id="order-history">
+            <hr>
+            <h2>ORDER HISTORY:</h2><p></p>
+            <span id="items-purchased"></span>
+        </div>
 </div>
     <footer id="footer"></footer>
 </div>

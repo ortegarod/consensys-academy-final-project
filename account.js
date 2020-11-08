@@ -3,6 +3,9 @@ var contractInstance;
 
 $(document).ready(function() {
     window.ethereum.enable().then(function(accounts){
+        window.ethereum.on('accountsChanged', function (accounts) {
+                window.location.reload();
+        })
         contractInstance = new web3.eth.Contract(abi, deployment_address, {from: accounts[0]});
         console.log(contractInstance);
         $("#contract-address").text(contractInstance.options.address);
@@ -123,16 +126,6 @@ $(document).ready(function() {
                                 $("#product-price-label").text(web3.utils.fromWei(result[2], 'ether'));
                                 $("#product-SKU-label").text(result[3]);
                                 $("#product-quantity-label").text(result[4]);
-                                // var index = 0;
-                                // for (i = 0; i < 11; i++) {
-                                //     var input = result[i];
-                                //     var list = document.getElementById("my-products-detail-menu");
-                                //     var item = document.createElement("li");
-                                //     item.id = index;
-                                //     item.innerHTML = input;
-                                //     index++;
-                                //     list.appendChild(item);
-                                // } 
                             })
             }
                                     function editItem () {
@@ -140,6 +133,22 @@ $(document).ready(function() {
                                     }
         });
 
+
+
+                    contractInstance.getPastEvents('ProductSold', {filter: {buyer: [accounts[0]]}, fromBlock: 0, toBlock: 'latest'}, function (error, events) {
+                        console.log(events);
+                        if (events.length == 0) {
+                        } else {
+                            var items = events[0].returnValues[0];
+                            contractInstance.methods.productsMapping(items).call()
+                            .then(function(result) {
+                                console.log(result);
+                                $("#items-purchased").text(result.name);
+    
+                            })
+                        }
+
+                    })
     })
 
     $("#addStore").click(addStore)

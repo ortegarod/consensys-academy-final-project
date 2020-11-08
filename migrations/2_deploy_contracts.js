@@ -9,7 +9,7 @@ module.exports = function (deployer) {
     instance.newStore("ebay");
     instance.newStore("wal-mart");
     instance.newStore("pawn");
-    instance.newProduct("juice", "PngYbaInyQBTuTsjejoF", web3.utils.toWei('1.110', 'ether'), 439491559042, 88, 1);
+    instance.newProduct("juice", "PngYbaInyQBTuTsjejoF", web3.utils.toWei('1.110', 'ether'), 439491559042, 2, 1);
     instance.newProduct("meat", "PngYbaInyQBTuTsjejoF", web3.utils.toWei('1.253', 'ether'), 289946067264, 22, 1);
     instance.newProduct("spaghetti", "PngYbaInyQBTuTsjejoF", web3.utils.toWei('0.849', 'ether'), 897668716446, 81, 2);
     instance.newProduct("milk", "PngYbaInyQBTuTsjejoF", web3.utils.toWei('2.959', 'ether'), 108749300921, 44, 2);

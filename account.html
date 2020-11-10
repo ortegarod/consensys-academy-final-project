@@ -24,8 +24,14 @@
         <div>
             <div>Ethereum Account Address: <span id="ether_wallet"></span></div>
             <hr>
-            <label for="storeName"><h2>ADD STORE FOR ONLY 0.001 ETH</h2><p>Store Name:</p></label>
-            <input type="text" id="storeName" name="storeName"><br><br>
+            <label for="storeName"><h2>ADD STORE FOR ONLY 0.001 ETH</h2>Store Name:</label>
+            <input type="text" id="storeName" name="storeName"><br>
+            <label for="store-description">Description:</label>
+            <input type="text" id="store-description" name="store-description"><br>
+            <label for="store-website">Website:</label>
+            <input type="text" id="store-website" name="store-website"><br>
+            <label for="store-email">Contact Email:</label>
+            <input type="text" id="store-email" name="store-email"><br><br>
             <button type="button" class="addStore" id="addStore">ADD STORE (COST: 0.005 ETH):</button>
             <hr>
             <label for="storeName"><h2>MY STORES:</h2><p>Click on a store to view or add products</p></label>
@@ -70,10 +76,24 @@
             <input type="text" id="product-storeID" name="product-storeID"><br><br> -->
             <button type="button" class="add-product" id="add-product">ADD PRODUCT (COST: 0.001 ETH)</button>
         </div>
+        <div id="new-orders">
+            <hr>
+            <h2>NEW ORDERS:</h2><p></p>
+            <span id="new-orders"></span>
+        </div>
         <div id="order-history">
             <hr>
             <h2>ORDER HISTORY:</h2><p></p>
-            <span id="items-purchased"></span>
+            <!-- <label for="order-date">Order Date:</label>
+            <span id="order-date"></span><br>
+            <label for="items-purchased">Product Name:</label>
+            <span id="items-purchased"></span><br>
+            <label for="items-purchased-tx">TX Hash:</label>
+            <span id="items-purchased-tx"></span><br>
+            <label for="order-shipped">Shipped:</label>
+            <span id="order-shipped"></span><br>
+            <label for="tracking-number">Tracking #:</label>
+            <span id="tracking-number"></span> -->
         </div>
 </div>
     <footer id="footer"></footer>

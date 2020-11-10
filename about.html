@@ -4,10 +4,12 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
-    <script type="text/javascript" src="node_modules/web3/dist/web3.js"></script>
-    <script type="text/javascript" src="./abi.js"></script>
-    <link rel="stylesheet" type="text/css" href="default.css" />
-    <!-- <script type="text/javascript" src="./main.js"></script> -->
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+
+    <!-- <script type="text/javascript" src="node_modules/web3/dist/web3.js"></script>
+    <script type="text/javascript" src="./abi.js"></script> -->
+    <!-- <link rel="stylesheet" type="text/css" href="default.css" /> -->
+    
     <script> 
         $(function(){
           $("#header").load("header.html");
@@ -21,6 +23,37 @@
         <div id="content-wrap">
     <div id="header"></div>
 
+<label for="faqs_dl"> <h2> FAQs </h2> </label>
+    <dl id="faqs_dl">
+        <dt>What is Ether-Mart?</dt>
+        <dd>Ether-Mart is a decentralized, censorship-resistant online marketplace. It is run by a set of smart contracts on the Ethereum blockchain. The UI is a browser-based web application, but the smart contract can also be accessed directly by anyone.</dd>		 
+        <br>
+        <dt>How can I buy things?</dt>
+        <dd>You need a Metamask account to purchase items on Ether-Mart. Your identity is based on your Ethereum public address. In order to receive your items, you  must provide a shipping address or email address to the seller at the time of the transaction. If you provide only an email address, the seller will reach you to you directly to ask for further instructions.</dd>		 
+        <br>
+        <dt>What methods of payment are accepted?</dt>
+        <dd>Currently, only Ether (ETH) is a valid form of payment. The funds are sent directly to the seller at the time of the transaction. Ether-Mart.com is only an interface to the smart contract's functionality and does not handle payments.</dd>
+        <br>
+        <dt>How can I request a refund or exchange?</dt>
+        <dd>On Ethereum, payments are settled at the time of the transaction. This means that funds are immediately received by the seller and it is the obligation of the seller to ship your items. If you have any questions about your order, please reach out to the seller through their email address provided on their store page.</dd>
+        <br>
+        <dt>How can I verify a seller is a reputable person?</dt>
+        <dd>Given the censorship-resistant nature of the platform, anyone is able to add a storefront and sell their products. There are several ways a buyer can verify the integrity of a seller: <br> <ul><li>Does the seller have any transaction history? Check the seller's public address on Etherscan to get an idea of the seller's sales activity. The higher number of transactions, the more likely it is the seller is reputable.</li><li>Check the seller's sales rating on their store page.</li><li>Reach out to the seller directly with any questions before purchasing an item.</li></ul> </dd>
+    </dl> 
+    <script type="text/javascript">
+        jQuery("#faqs_dl dd").hide();
+        jQuery("#faqs_dl dt").click(function () {
+            jQuery(this).next("#faqs_dl dd").slideToggle(600);
+            jQuery(this).toggleClass("expanded_image");
+        });
+    </script>
+<style>
+    #faqs_dl dt, #faqs_dl dd { padding: 0 0 0 50px }
+    #faqs_dl dt { font-size:1.5em; color: #9d9d9d; cursor: pointer; height: 37px; line-height: 37px; margin: 0 0 15px 25px}
+    #faqs_dl dd { font-size: 1em; margin: 0 0 20px 25px}
+    #faqs_dl dt { background: url(img/show_plus_add_green.png) no-repeat left}
+    #faqs_dl .expanded_image { background: url(img/hide_minus_remove_green.png) no-repeat left}
+</style>
 
     </div>
     <footer id="footer"></footer>

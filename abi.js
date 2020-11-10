@@ -1,4 +1,4 @@
-var deployment_address = "0x9547a3C45A2C2Be1811a045cfa3b98C1898a3635";
+var deployment_address = "0x4Ee0ca1C9Af014b80a6C9187a29Ef8Ea4f6B9f0C";
 var abi = [
   {
     "anonymous": false,
@@ -81,6 +81,12 @@ var abi = [
         "indexed": true,
         "internalType": "address",
         "name": "buyer",
+        "type": "address"
+      },
+      {
+        "indexed": true,
+        "internalType": "address",
+        "name": "seller",
         "type": "address"
       }
     ],
@@ -296,6 +302,21 @@ var abi = [
         "internalType": "uint256",
         "name": "storeID",
         "type": "uint256"
+      },
+      {
+        "internalType": "string",
+        "name": "description",
+        "type": "string"
+      },
+      {
+        "internalType": "string",
+        "name": "website",
+        "type": "string"
+      },
+      {
+        "internalType": "string",
+        "name": "email",
+        "type": "string"
       }
     ],
     "stateMutability": "view",
@@ -326,6 +347,21 @@ var abi = [
         "internalType": "uint256",
         "name": "storeID",
         "type": "uint256"
+      },
+      {
+        "internalType": "string",
+        "name": "description",
+        "type": "string"
+      },
+      {
+        "internalType": "string",
+        "name": "website",
+        "type": "string"
+      },
+      {
+        "internalType": "string",
+        "name": "email",
+        "type": "string"
       }
     ],
     "stateMutability": "view",
@@ -356,6 +392,21 @@ var abi = [
         "internalType": "uint256",
         "name": "storeID",
         "type": "uint256"
+      },
+      {
+        "internalType": "string",
+        "name": "description",
+        "type": "string"
+      },
+      {
+        "internalType": "string",
+        "name": "website",
+        "type": "string"
+      },
+      {
+        "internalType": "string",
+        "name": "email",
+        "type": "string"
       }
     ],
     "stateMutability": "view",
@@ -482,6 +533,21 @@ var abi = [
       {
         "internalType": "string",
         "name": "_name",
+        "type": "string"
+      },
+      {
+        "internalType": "string",
+        "name": "_description",
+        "type": "string"
+      },
+      {
+        "internalType": "string",
+        "name": "_website",
+        "type": "string"
+      },
+      {
+        "internalType": "string",
+        "name": "_email",
         "type": "string"
       }
     ],

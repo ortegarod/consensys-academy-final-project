@@ -3,12 +3,12 @@ const OnlineMarketplace = artifacts.require("OnlineMarketplace");
 module.exports = function (deployer) {
   deployer.deploy(OnlineMarketplace)
   .then(function(instance) {
-    instance.newStore("qm");
-    instance.newStore("je");
-    instance.newStore("mayeli");
-    instance.newStore("ebay");
-    instance.newStore("wal-mart");
-    instance.newStore("pawn");
+    instance.newStore("qm", "sdlkfjds", "lskdjfsldk", "lksdjfksd");
+    instance.newStore("je", "ldslkjflsdj", "dlksfjslkd", "sldkfjskld");
+    instance.newStore("mayeli", "ldskfjlsdkjf", "dlskfjlsdkj", "slkjdjfksjd");
+    instance.newStore("ebay", "slkdfjlds;kfjk", "slkdfjlksj", "slkdjflkjsd");
+    instance.newStore("wal-mart", "sldkfjldsjlk", "sldkfjlkdsj", "lsdkjflsdk");
+    instance.newStore("pawn", "slkdjfdsk", "lksdjfkjsd", "sldkjfslkdjlj");
     instance.newProduct("juice", "PngYbaInyQBTuTsjejoF", web3.utils.toWei('1.110', 'ether'), 439491559042, 2, 1);
     instance.newProduct("meat", "PngYbaInyQBTuTsjejoF", web3.utils.toWei('1.253', 'ether'), 289946067264, 22, 1);
     instance.newProduct("spaghetti", "PngYbaInyQBTuTsjejoF", web3.utils.toWei('0.849', 'ether'), 897668716446, 81, 2);

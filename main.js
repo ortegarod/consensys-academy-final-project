@@ -53,6 +53,11 @@ $(document).ready(function() {
                     contractInstance.methods.storesMapping(e.target.id).call()
                         .then(function(result) {
                         $('#storefront-header').text(result[0]);
+                        $('#storefront-description').text(result[3]);
+                        $('#storefront-website').text(result[4]);
+                        $('#storefront-email').text(result[5]);
+                        $('#seller-address').text(result[1]);
+
                     })
                     contractInstance.methods.getProductsMALength(e.target.id).call()
                     .then(function(result) {
@@ -106,7 +111,6 @@ $(document).ready(function() {
                                 var price = web3.utils.fromWei(result[2], 'ether');
                                 $("#product-price-label").text(price);
                                 config = { value: web3.utils.toWei(price) }
-                                $("#product-SKU-label").text(result[3]);
                                 $("#product-quantity-label").text(result[4]);
 
 
@@ -147,47 +151,9 @@ $(document).ready(function() {
 
     })
 
-    // $("#addStore").click(addStore)
-    // $("#add-product").click(addProduct)
     $("#back-to-product-menu").click(back)
 
-
 })
-
-// function addStore () {
-//     var name = $("#storeName").val();
-//     contractInstance.once('StoreCreated', {}, (function(error, event){
-//         console.log(event.returnValues['newStoreName']);
-//         $("#menu").append(event.returnValues['newStoreName']);
-//         $("#new_store").add(event.returnValues['newStoreName']);
-//     }))
-//     contractInstance.methods.newStore(name).send()
-//     .on("receipt", function(receipt){ 
-//         console.log(receipt);
-//         location.reload();
-//     }) 
-//     .then(function(result){
-//         console.log(result);
-//     }) 
-// }
-
-// function addProduct () {
-//     var name = $("#product-name").val();
-//     var description = $("#product-description").val();
-//     var price = $("#product-price").val();
-//     var quantity = $("#product-quantity").val();
-//     var SKU = $("#product-SKU").val();
-//     var storeID = $("#product-storeID").val();
-//     contractInstance.once('ProductCreated', {}, (function(error, event){
-//         console.log(event);
-//         console.log(event.returnValues['newProductName']);
-//     }))
-//     contractInstance.methods.newProduct(name, description, web3.utils.toWei(price), SKU, quantity, storeID).send()
-//     .on("receipt", function(receipt){ 
-//         console.log(receipt);
-//     }) 
-// }
-
 
 function refresh () {
     location.reload();

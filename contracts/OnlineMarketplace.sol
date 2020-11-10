@@ -12,7 +12,7 @@ contract OnlineMarketplace {
     
     event StoreCreated(string newStoreName, address owner, uint storeID);
     event ProductCreated(string newProductName, uint price, uint SKU, uint quantity, uint uniqueID, address seller, uint storeID);
-    event ProductSold(uint indexed productID, address indexed buyer);
+    event ProductSold(uint indexed productID, address indexed buyer, address indexed seller);
     event ProductShipped(uint productID, uint trackingNumber);
 
     uint ID;
@@ -21,6 +21,9 @@ contract OnlineMarketplace {
         string name;
         address owner;
         uint storeID;
+        string description;
+        string website;
+        string email;
     }
     
     struct Products {
@@ -90,7 +93,7 @@ contract OnlineMarketplace {
     //     return (name, owner, storeID);
     // }
 
-    function newStore(string memory _name) public payable {
+    function newStore(string memory _name, string memory _description, string memory _website, string memory _email) public payable {
         // Stores storage c = stores[msg.sender];
         // c.name = _name;
         // c.storeID = getID();
@@ -99,6 +102,9 @@ contract OnlineMarketplace {
         a.name = _name;
         a.owner = msg.sender;
         a.storeID = getID();
+        a.description = _description;
+        a.website = _website;
+        a.email = _email;
         
         insertStore(a, a.storeID);
         storesArray.push(a);
@@ -145,7 +151,7 @@ contract OnlineMarketplace {
         // Products storage c = products[_storeID][_productID];
         // c.sold = true;
         
-        emit ProductSold(_productID, msg.sender);
+        emit ProductSold(_productID, msg.sender, productsMapping[_productID].seller);
     }
 
     // function itemShipped(uint _ID, uint _trackingNumber) public {

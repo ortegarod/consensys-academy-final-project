@@ -23,7 +23,3 @@ module.exports = function (deployer) {
 
   })
 };
-
-// function getRandomInt(max) {
-//   return Math.floor(Math.random() * Math.floor(max));
-// }

@@ -12,7 +12,7 @@ contract OnlineMarketplace {
     
     event StoreCreated(string newStoreName, address owner, uint storeID);
     event ProductCreated(string newProductName, uint price, uint SKU, uint quantity, uint uniqueID, address seller, uint storeID);
-    event ProductSold(uint indexed productID, address indexed buyer, address indexed seller);
+    event ProductSold(uint indexed productID, address indexed buyer, address indexed seller, uint price);
     event ProductShipped(uint productID, uint trackingNumber);
 
     uint ID;
@@ -65,8 +65,16 @@ contract OnlineMarketplace {
         return products[_storeID].length;
     }
 
-    function getProduct(uint _uniqueID) public view returns (string memory) {
-        return productsMapping[_uniqueID].name;
+    function getProductA (uint _uniqueID) public view returns (string memory name, string memory description, uint price, uint SKU, uint quantity, uint uniqueID) {
+        return (productsMapping[_uniqueID].name, productsMapping[_uniqueID].description, productsMapping[_uniqueID].price, productsMapping[_uniqueID].SKU, productsMapping[_uniqueID].quantity, productsMapping[_uniqueID].uniqueID);
+    }
+
+    function getProductB (uint _uniqueID) public view returns (bool sold, bool shipped, uint trackingNumber, address buyer, address seller, uint storeID) {
+        return (productsMapping[_uniqueID].sold, productsMapping[_uniqueID].shipped, productsMapping[_uniqueID].trackingNumber, productsMapping[_uniqueID].buyer, productsMapping[_uniqueID].seller, productsMapping[_uniqueID].storeID);
+    }
+
+    function getProductsMA(uint _storeID, uint _index) public view returns (string memory) {
+        return products[_storeID][_index].name;
     }
 
     function getStore(uint _storeID) public view returns (string memory) {
@@ -93,11 +101,7 @@ contract OnlineMarketplace {
     //     return (name, owner, storeID);
     // }
 
-    function newStore(string memory _name, string memory _description, string memory _website, string memory _email) public payable {
-        // Stores storage c = stores[msg.sender];
-        // c.name = _name;
-        // c.storeID = getID();
-        
+    function newStore(string memory _name, string memory _description, string memory _website, string memory _email) public payable {     
         Stores memory a;
         a.name = _name;
         a.owner = msg.sender;
@@ -142,16 +146,12 @@ contract OnlineMarketplace {
     function buyItem(uint _productID) public payable {
         require (msg.value == productsMapping[_productID].price);
         require (productsMapping[_productID].quantity > 0);
-        productsMapping[_productID].seller.transfer(msg.value);
+        // productsMapping[_productID].seller.transfer(msg.value);
         productsMapping[_productID].sold = true;
         productsMapping[_productID].buyer = msg.sender;
         productsMapping[_productID].quantity -= 1;
-
-
-        // Products storage c = products[_storeID][_productID];
-        // c.sold = true;
-        
-        emit ProductSold(_productID, msg.sender, productsMapping[_productID].seller);
+       
+        emit ProductSold(_productID, msg.sender, productsMapping[_productID].seller, productsMapping[_productID].price);
     }
 
     // function itemShipped(uint _ID, uint _trackingNumber) public {
@@ -162,8 +162,4 @@ contract OnlineMarketplace {
     //     emit ProductShipped(_ID, _trackingNumber);
     // }
 
-
-    function owner() public view returns (address) {
-         return msg.sender;
-    }
 }

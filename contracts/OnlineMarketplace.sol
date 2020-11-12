@@ -1,21 +1,21 @@
 // SPDX-License-Identifier: UNLICENSED
+pragma solidity ^0.6.0;
 
-pragma solidity 0.7.0;
-// pragma experimental ABIEncoderV2;
+import "@openzeppelin/contracts/access/Ownable.sol";
 
-/// @title An implementation of a browser-based, RNG-style, item collection game
+/// @title An implementation of an online marketplace using Ethereum
 /// @author Rodrigo Ortega
-/// @notice You can use this contract for interacting with the game options
-/// @dev All function calls (game options) are currently accessible to all players regardless of their progress in the game
-
-contract OnlineMarketplace {
+/// @notice You can use this contract for actions related to the online marketplace (listing items, buying items, etc.)
+contract OnlineMarketplace is Ownable {
     
     event StoreCreated(string newStoreName, address owner, uint storeID);
     event ProductCreated(string newProductName, uint price, uint SKU, uint quantity, uint uniqueID, address seller, uint storeID);
     event ProductSold(uint indexed productID, address indexed buyer, address indexed seller, uint price);
-    event ProductShipped(uint productID, uint trackingNumber);
+    event ProductShipped(uint productID, uint trackingNumber, address indexed seller, address indexed buyer);
+    event UserRegistered(address indexed user, string email);
 
     uint ID;
+    uint balance;
 
     struct Stores {
         string name;
@@ -48,6 +48,8 @@ contract OnlineMarketplace {
     
     mapping (address => Stores[]) public stores;
     mapping (uint => Products[]) public products;
+
+    mapping (address => string) emails;
     
     function getID() public returns (uint) {
         return ++ID;
@@ -81,27 +83,17 @@ contract OnlineMarketplace {
         return storesMapping[_storeID].name;
     }
 
+    function getEmail(address _address) public view returns (string memory email) {
+        return emails[_address];
+    }
+
     function getContractBalance() public view returns (uint) {
         return address(this).balance;
     }
 
-    // function getStores() public view returns (string[] memory, address[] memory, uint[] memory) {
-    //     uint length = storesArray.length;
-
-    //     string[] memory name = new string[](length);
-    //     address[] memory owner = new address[](length);
-    //     uint[] memory storeID = new uint[](length);
-
-    //     for (uint i = 0; i < length; i++) {
-    //         Stores storage a = storesArray[i];
-    //         name[i] = a.name;
-    //         owner[i] = a.owner;
-    //         storeID[i] = a.storeID;
-    //     }
-    //     return (name, owner, storeID);
-    // }
-
     function newStore(string memory _name, string memory _description, string memory _website, string memory _email) public payable {     
+        require (msg.value == .005 ether);
+        balance += msg.value;
         Stores memory a;
         a.name = _name;
         a.owner = msg.sender;
@@ -146,7 +138,7 @@ contract OnlineMarketplace {
     function buyItem(uint _productID) public payable {
         require (msg.value == productsMapping[_productID].price);
         require (productsMapping[_productID].quantity > 0);
-        // productsMapping[_productID].seller.transfer(msg.value);
+        productsMapping[_productID].seller.transfer(msg.value);
         productsMapping[_productID].sold = true;
         productsMapping[_productID].buyer = msg.sender;
         productsMapping[_productID].quantity -= 1;
@@ -154,12 +146,21 @@ contract OnlineMarketplace {
         emit ProductSold(_productID, msg.sender, productsMapping[_productID].seller, productsMapping[_productID].price);
     }
 
-    // function itemShipped(uint _ID, uint _trackingNumber) public {
-    //     Products storage c = products[_ID];
-    //     c.shipped = true;
-    //     c.trackingNumber = _trackingNumber;
-        
-    //     emit ProductShipped(_ID, _trackingNumber);
-    // }
+    function itemShipped(uint _uniqueID, uint _trackingNumber) public {
+        productsMapping[_uniqueID].trackingNumber = _trackingNumber;
+        productsMapping[_uniqueID].shipped = true;
+
+        emit ProductShipped(_uniqueID, _trackingNumber, productsMapping[_uniqueID].seller, productsMapping[_uniqueID].buyer);
+    }
+
+    function register(string memory _email) public {
+        emails[msg.sender] = _email;
+
+        emit UserRegistered(msg.sender, _email);
+    }
+
+    function getBalance() public view returns (uint) {
+        return address(this).balance;       
+    }
 
 }

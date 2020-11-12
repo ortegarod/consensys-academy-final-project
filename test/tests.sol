@@ -5,6 +5,7 @@ import "truffle/DeployedAddresses.sol";
 import "truffle/Assert.sol";
 import "../contracts/OnlineMarketplace.sol";
 
+
 contract TestOnlineMarketPlace {
     // Create functions that begin with "test" to signify different test functions.
     // More documentation at http://trufflesuite.com/docs/getting_started/solidity-tests
@@ -45,7 +46,7 @@ OnlineMarketplace onlinemarketplace = OnlineMarketplace(DeployedAddresses.Online
 
     function testNewStore() public {
         uint _storeID = 19;
-        onlinemarketplace.newStore("testStore", "testDescription", "testWebsite", "testEmail");
+        onlinemarketplace.newStore.value(.005 ether)("testStore", "testDescription", "testWebsite", "testEmail");
         string memory result = onlinemarketplace.getStore(_storeID);
         Assert.equal(result, "testStore", "name of new store added to store mapping should be 'testStore'");
         
@@ -82,8 +83,20 @@ OnlineMarketplace onlinemarketplace = OnlineMarketplace(DeployedAddresses.Online
         Assert.equal(result, "testproduct", "product should get pushed to array in products mapping using storeID");
     }
 
-    function testBuyItem() public {
-        onlinemarketplace.buyItem{value: 1}(20);
+    // function testBuyItem() public {
+    //     onlinemarketplace.buyItem{value: 1}(20);
+    //     bool sold;
+    //     bool shipped;
+    //     uint trackingNumber;
+    //     address buyer;
+    //     address seller;
+    //     uint storeID;
+    //     (sold, shipped, trackingNumber, buyer, seller, storeID) = onlinemarketplace.getProductB(20);
+    //     Assert.isTrue(sold, "product status should get changed to sold");
+    // }
+
+    function testItemShipped() public {
+        onlinemarketplace.itemShipped(20, 123456789);
         bool sold;
         bool shipped;
         uint trackingNumber;
@@ -91,7 +104,12 @@ OnlineMarketplace onlinemarketplace = OnlineMarketplace(DeployedAddresses.Online
         address seller;
         uint storeID;
         (sold, shipped, trackingNumber, buyer, seller, storeID) = onlinemarketplace.getProductB(20);
-        Assert.isTrue(sold, "product status should get changed to sold");
+        Assert.equal(trackingNumber, 123456789, "product should have tracking number after shipped");
+    }
+
+    function testGetBalance() public {
+        uint result = onlinemarketplace.getBalance();
+        Assert.equal(result, .035 ether, "contract balance should be 0.035 ether");
     }
 
 }

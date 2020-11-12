@@ -1,4 +1,4 @@
-var deployment_address = "0x4Ee0ca1C9Af014b80a6C9187a29Ef8Ea4f6B9f0C";
+var deployment_address = "0x8677935FA1CEBd80944BC04Ef9fbEd1319FB2C48";
 var abi = [
   {
     "anonymous": false,
@@ -63,6 +63,18 @@ var abi = [
         "internalType": "uint256",
         "name": "trackingNumber",
         "type": "uint256"
+      },
+      {
+        "indexed": true,
+        "internalType": "address",
+        "name": "seller",
+        "type": "address"
+      },
+      {
+        "indexed": true,
+        "internalType": "address",
+        "name": "buyer",
+        "type": "address"
       }
     ],
     "name": "ProductShipped",
@@ -88,6 +100,12 @@ var abi = [
         "internalType": "address",
         "name": "seller",
         "type": "address"
+      },
+      {
+        "indexed": false,
+        "internalType": "uint256",
+        "name": "price",
+        "type": "uint256"
       }
     ],
     "name": "ProductSold",
@@ -116,6 +134,25 @@ var abi = [
       }
     ],
     "name": "StoreCreated",
+    "type": "event"
+  },
+  {
+    "anonymous": false,
+    "inputs": [
+      {
+        "indexed": true,
+        "internalType": "address",
+        "name": "user",
+        "type": "address"
+      },
+      {
+        "indexed": false,
+        "internalType": "string",
+        "name": "email",
+        "type": "string"
+      }
+    ],
+    "name": "UserRegistered",
     "type": "event"
   },
   {
@@ -482,7 +519,102 @@ var abi = [
         "type": "uint256"
       }
     ],
-    "name": "getProduct",
+    "name": "getProductA",
+    "outputs": [
+      {
+        "internalType": "string",
+        "name": "name",
+        "type": "string"
+      },
+      {
+        "internalType": "string",
+        "name": "description",
+        "type": "string"
+      },
+      {
+        "internalType": "uint256",
+        "name": "price",
+        "type": "uint256"
+      },
+      {
+        "internalType": "uint256",
+        "name": "SKU",
+        "type": "uint256"
+      },
+      {
+        "internalType": "uint256",
+        "name": "quantity",
+        "type": "uint256"
+      },
+      {
+        "internalType": "uint256",
+        "name": "uniqueID",
+        "type": "uint256"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function",
+    "constant": true
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "uint256",
+        "name": "_uniqueID",
+        "type": "uint256"
+      }
+    ],
+    "name": "getProductB",
+    "outputs": [
+      {
+        "internalType": "bool",
+        "name": "sold",
+        "type": "bool"
+      },
+      {
+        "internalType": "bool",
+        "name": "shipped",
+        "type": "bool"
+      },
+      {
+        "internalType": "uint256",
+        "name": "trackingNumber",
+        "type": "uint256"
+      },
+      {
+        "internalType": "address",
+        "name": "buyer",
+        "type": "address"
+      },
+      {
+        "internalType": "address",
+        "name": "seller",
+        "type": "address"
+      },
+      {
+        "internalType": "uint256",
+        "name": "storeID",
+        "type": "uint256"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function",
+    "constant": true
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "uint256",
+        "name": "_storeID",
+        "type": "uint256"
+      },
+      {
+        "internalType": "uint256",
+        "name": "_index",
+        "type": "uint256"
+      }
+    ],
+    "name": "getProductsMA",
     "outputs": [
       {
         "internalType": "string",
@@ -507,6 +639,26 @@ var abi = [
       {
         "internalType": "string",
         "name": "",
+        "type": "string"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function",
+    "constant": true
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "address",
+        "name": "_address",
+        "type": "address"
+      }
+    ],
+    "name": "getEmail",
+    "outputs": [
+      {
+        "internalType": "string",
+        "name": "email",
         "type": "string"
       }
     ],
@@ -611,17 +763,34 @@ var abi = [
     "payable": true
   },
   {
-    "inputs": [],
-    "name": "owner",
-    "outputs": [
+    "inputs": [
       {
-        "internalType": "address",
-        "name": "",
-        "type": "address"
+        "internalType": "uint256",
+        "name": "_uniqueID",
+        "type": "uint256"
+      },
+      {
+        "internalType": "uint256",
+        "name": "_trackingNumber",
+        "type": "uint256"
       }
     ],
-    "stateMutability": "view",
-    "type": "function",
-    "constant": true
+    "name": "itemShipped",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "string",
+        "name": "_email",
+        "type": "string"
+      }
+    ],
+    "name": "register",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
   }
 ]

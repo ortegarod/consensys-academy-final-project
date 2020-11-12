@@ -18,6 +18,27 @@ $(document).ready(function() {
         })
         var account = web3.currentProvider.selectedAddress
         $("#ether_wallet").text(account);
+        contractInstance.methods.getEmail(accounts[0]).call()
+        .then(function (result) {
+            if (result != "") {
+                $("#email-address").text(result);
+                var a = document.getElementById("sign-up");
+                a.style.display = "none";
+            } else {
+                $("#register-email-button").click(register);
+                function register() {
+                    var email = $("#email-input").val();
+                    contractInstance.methods.register(email).send()
+                    .on("receipt", function(receipt){ 
+                        console.log(receipt);
+                        location.reload();
+                        $("#email-address").text(result);
+                    }) 
+                }
+            }
+
+        })
+
         contractInstance.methods.getStoresMALength().call()
         .then(function(result) {
             length = result;
@@ -131,8 +152,7 @@ $(document).ready(function() {
         });
 
                     contractInstance.getPastEvents('ProductSold', {filter: {seller: [accounts[0]]}, fromBlock: 0, toBlock: 'latest'}, function (error, events) {
-                        len = events.length;
-                        console.log(len);
+                        console.log(events);
 
                         for (i = 0; i < events.length; i++) {
 

@@ -1,14 +1,14 @@
 const OnlineMarketplace = artifacts.require("OnlineMarketplace");
 
-module.exports = function (deployer) {
+module.exports = function (deployer, network, accounts) {
   deployer.deploy(OnlineMarketplace)
   .then(function(instance) {
-    instance.newStore("qm", "sdlkfjds", "lskdjfsldk", "lksdjfksd");
-    instance.newStore("je", "ldslkjflsdj", "dlksfjslkd", "sldkfjskld");
-    instance.newStore("mayeli", "ldskfjlsdkjf", "dlskfjlsdkj", "slkjdjfksjd");
-    instance.newStore("ebay", "slkdfjlds;kfjk", "slkdfjlksj", "slkdjflkjsd");
-    instance.newStore("wal-mart", "sldkfjldsjlk", "sldkfjlkdsj", "lsdkjflsdk");
-    instance.newStore("pawn", "slkdjfdsk", "lksdjfkjsd", "sldkjfslkdjlj");
+    instance.newStore("qm", "sdlkfjds", "lskdjfsldk", "lksdjfksd", {from: accounts[0], value: web3.utils.toWei('0.005', 'ether')});
+    instance.newStore("je", "ldslkjflsdj", "dlksfjslkd", "sldkfjskld", {from: accounts[0], value: web3.utils.toWei('0.005', 'ether')});
+    instance.newStore("mayeli", "ldskfjlsdkjf", "dlskfjlsdkj", "slkjdjfksjd", {from: accounts[0], value: web3.utils.toWei('0.005', 'ether')});
+    instance.newStore("ebay", "slkdfjlds;kfjk", "slkdfjlksj", "slkdjflkjsd", {from: accounts[0], value: web3.utils.toWei('0.005', 'ether')});
+    instance.newStore("wal-mart", "sldkfjldsjlk", "sldkfjlkdsj", "lsdkjflsdk", {from: accounts[0], value: web3.utils.toWei('0.005', 'ether')});
+    instance.newStore("pawn", "slkdjfdsk", "lksdjfkjsd", "sldkjfslkdjlj", {from: accounts[0], value: web3.utils.toWei('0.005', 'ether')});
     instance.newProduct("juice", "PngYbaInyQBTuTsjejoF", web3.utils.toWei('1.110', 'ether'), 439491559042, 2, 1);
     instance.newProduct("meat", "PngYbaInyQBTuTsjejoF", web3.utils.toWei('1.253', 'ether'), 289946067264, 22, 1);
     instance.newProduct("spaghetti", "PngYbaInyQBTuTsjejoF", web3.utils.toWei('0.849', 'ether'), 897668716446, 81, 2);
@@ -20,6 +20,7 @@ module.exports = function (deployer) {
     instance.newProduct("clothes", "PngYbaInyQBTuTsjejoF", web3.utils.toWei('2.794', 'ether'), 621451227030, 9, 5);
     instance.newProduct("oil", "PngYbaInyQBTuTsjejoF", web3.utils.toWei('1.428', 'ether'), 338001778694, 65, 5);
     instance.newProduct("vodka", "PngYbaInyQBTuTsjejoF", web3.utils.toWei('1.555', 'ether'), 389814568549, 38, 6);
+    instance.register("email@email.com");
 
   })
 };

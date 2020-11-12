@@ -9,13 +9,7 @@ $(document).ready(function() {
                 window.location.reload();
         })
         contractInstance = new web3.eth.Contract(abi, deployment_address, {from: accounts[0]});
-        
         console.log(contractInstance);
-        $("#contract-address").text(contractInstance.options.address);
-        contractInstance.methods.getContractBalance().call()
-        .then(function(result){
-            $("#contract-balance").text(result + " ETH");
-        })
         var account = web3.currentProvider.selectedAddress
         $("#ether_wallet").text(account);
         contractInstance.methods.getEmail(accounts[0]).call()
@@ -279,6 +273,7 @@ $(document).ready(function() {
 
     $("#addStore").click(addStore)
 
+
 })
 
 function addStore () {
@@ -292,7 +287,10 @@ function addStore () {
         $("#menu").append(event.returnValues['newStoreName']);
         $("#new_store").add(event.returnValues['newStoreName']);
     }))
-    contractInstance.methods.newStore(name, description, website, email).send()
+    var config = {
+        value: web3.utils.toWei(".005")
+    }
+    contractInstance.methods.newStore(name, description, website, email).send(config)
     .on("receipt", function(receipt){ 
         console.log(receipt);
         location.reload();
@@ -305,3 +303,4 @@ function addStore () {
 function refresh () {
     location.reload();
 }
+

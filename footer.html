@@ -3,13 +3,20 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+    <script type="text/javascript" src="node_modules/web3/dist/web3.js"></script>
+    <script type="text/javascript" src="./footer.js"></script>
+    <script type="text/javascript" src="./abi.js"></script>
+    <link rel="stylesheet" type="text/css" href="default.css" />
 </head>
 <body>
     <hr>
     <label for="contract-address">Contract Address: </label>
-    <div><span id="contract-address"></span></div>
+    <span id="contract-address"></span><br>
     <label for="contract-balance">Contract Balance (ETH): </label>
-    <div><span id="contract-balance"></span></div>
+    <span id="contract-balance"></span><br>
     By Rodrigo Ortega
+    <div id="withdraw" style=display:none;><button type="button" id="withdraw-contract-balance">Withdraw Contract Balance</button></div>
+
 </body>
 </html>

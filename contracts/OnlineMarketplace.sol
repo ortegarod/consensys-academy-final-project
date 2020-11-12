@@ -163,4 +163,9 @@ contract OnlineMarketplace is Ownable {
         return address(this).balance;       
     }
 
+    function withdrawAll() public onlyOwner {
+        uint toTransfer = balance;
+        balance = 0;
+        msg.sender.transfer(toTransfer);    
+    }
 }

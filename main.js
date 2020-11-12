@@ -10,12 +10,6 @@ $(document).ready(function() {
           })
         contractInstance = new web3.eth.Contract(abi, deployment_address, {from: accounts[0]});
         console.log(contractInstance);
-        $("#contract-address").text(contractInstance.options.address);
-        contractInstance.methods.getContractBalance().call()
-        .then(function(result){
-            console.log("contract has " + web3.utils.fromWei(result) + " ETH");
-            $("#contract-balance").text(result + " ETH");
-        })
         contractInstance.methods.arrayLength().call()
         .then(function(result) {
             console.log(result);
@@ -170,3 +164,4 @@ function back () {
     d.style.display = "none";
     $('#product-detail-menu').empty();
 }
+

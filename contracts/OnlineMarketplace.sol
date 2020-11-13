@@ -16,6 +16,7 @@ contract OnlineMarketplace is Ownable {
 
     uint ID;
     uint balance;
+    bool isActive = true;
 
     struct Stores {
         string name;
@@ -50,6 +51,11 @@ contract OnlineMarketplace is Ownable {
     mapping (uint => Products[]) public products;
 
     mapping (address => string) emails;
+
+    modifier requireIsActive() {
+        require(isActive == true);
+        _;
+    }
     
     function getID() public returns (uint) {
         return ++ID;
@@ -91,7 +97,7 @@ contract OnlineMarketplace is Ownable {
         return address(this).balance;
     }
 
-    function newStore(string memory _name, string memory _description, string memory _website, string memory _email) public payable {     
+    function newStore(string memory _name, string memory _description, string memory _website, string memory _email) public payable requireIsActive {     
         require (msg.value == .005 ether);
         balance += msg.value;
         Stores memory a;
@@ -113,7 +119,7 @@ contract OnlineMarketplace is Ownable {
         storesMapping[_storeID] = a;
     }
     
-    function newProduct(string memory _name, string memory _description, uint _price, uint _SKU, uint _quantity, uint _storeID) public payable {
+    function newProduct(string memory _name, string memory _description, uint _price, uint _SKU, uint _quantity, uint _storeID) public payable requireIsActive {
         Products memory c;
         c.name = _name;
         c.description = _description;
@@ -135,7 +141,7 @@ contract OnlineMarketplace is Ownable {
         productsMapping[_uniqueID] = c;
     }
     
-    function buyItem(uint _productID) public payable {
+    function buyItem(uint _productID) public payable requireIsActive {
         require (msg.value == productsMapping[_productID].price);
         require (productsMapping[_productID].quantity > 0);
         productsMapping[_productID].seller.transfer(msg.value);
@@ -153,7 +159,7 @@ contract OnlineMarketplace is Ownable {
         emit ProductShipped(_uniqueID, _trackingNumber, productsMapping[_uniqueID].seller, productsMapping[_uniqueID].buyer);
     }
 
-    function register(string memory _email) public {
+    function register(string memory _email) public requireIsActive {
         emails[msg.sender] = _email;
 
         emit UserRegistered(msg.sender, _email);
@@ -163,9 +169,13 @@ contract OnlineMarketplace is Ownable {
         return address(this).balance;       
     }
 
-    function withdrawAll() public onlyOwner {
+    function withdrawAll() public onlyOwner requireIsActive {
         uint toTransfer = balance;
         balance = 0;
         msg.sender.transfer(toTransfer);    
+    }
+
+    function toggleCircuitBreaker() external onlyOwner {
+        isActive = !isActive;
     }
 }

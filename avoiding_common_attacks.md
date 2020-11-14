@@ -1,7 +1,6 @@
 #DRAFT
-#explain what measures you took to ensure that your contracts are not susceptible to common attacks
+#The following measures were taken to ensure that the smart contracts are not susceptible to common attacks:
 
-MythX
-Mythril
-Truffle testing (Solidity or JS?)
-review documentation on common attacks
+(1) Reviewed documentation on common attacks
+
+(2) used open-source security analysis tool, Smart Check, to check for vulnerabilities and bad practices

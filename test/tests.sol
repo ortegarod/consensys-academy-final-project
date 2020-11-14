@@ -49,20 +49,9 @@ OnlineMarketplace onlinemarketplace = OnlineMarketplace(DeployedAddresses.Online
         onlinemarketplace.newStore.value(.005 ether)("testStore", "testDescription", "testWebsite", "testEmail");
         string memory result = onlinemarketplace.getStore(_storeID);
         Assert.equal(result, "testStore", "name of new store added to store mapping should be 'testStore'");
-        
-        // Stores memory a;
-        // a.name = _name;
-        // a.owner = msg.sender;
-        // a.storeID = getID();
-        
-        // insertStore(a, a.storeID);
-        // storesArray.push(a);
-        
-        // emit StoreCreated(_name, msg.sender, a.storeID);
     }
 
     function testNewProductUniqueID() public {
-        
         onlinemarketplace.newProduct("testproduct", "testdescription", 1, 999, 99, 0);
         string memory name; 
         string memory description;
@@ -76,15 +65,13 @@ OnlineMarketplace onlinemarketplace = OnlineMarketplace(DeployedAddresses.Online
     }
 
     function testNewProductStoreID() public {
-        
         onlinemarketplace.newProduct("testproduct", "testdescription", 1, 999, 99, 1);
-                
         string memory result = onlinemarketplace.getProductsMA(1,2);
         Assert.equal(result, "testproduct", "product should get pushed to array in products mapping using storeID");
     }
 
     // function testBuyItem() public {
-    //     onlinemarketplace.buyItem{value: 1}(20);
+    //     onlinemarketplace.buyItem.value(1)(20);
     //     bool sold;
     //     bool shipped;
     //     uint trackingNumber;

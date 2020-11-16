@@ -98,7 +98,6 @@ OnlineMarketplace onlinemarketplace = OnlineMarketplace(DeployedAddresses.Online
         uint result = onlinemarketplace.getBalance();
         Assert.equal(result, .035 ether, "contract balance should be 0.035 ether");
     }
-
 }
 
 

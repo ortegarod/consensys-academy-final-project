@@ -3,7 +3,7 @@
 
 Circuit Breaker placed on functions that involve the transfer of Ether.
 
-Ether value is sent at the time of the transaction (sale of a product) to minimize possible attacks on a withdraw function for the seller. Additionally, this allows the seller to immediately receive funds before shipping out a product.  
+Ether value is sent at the time of the transaction (sale of a product) to minimize possible re-entrancy attacks on a withdraw function for the seller. Additionally, this allows the seller to immediately receive funds and confirmation before shipping out a product.  
 
 Access Control (Ownable.sol) by OpenZeppelin implemented on contract's balance withdraw function and toggle for circuit breaker using onlyOwner function modifier. Owner gets set at the time of contract creation (msg.sender).
 

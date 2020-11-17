@@ -1,4 +1,4 @@
-var deployment_address = "0xFD1F0D2D9f4aD44d249aE55F4c889427001D516a";
+var deployment_address = "0x56CeA108146Bb43600Ea2712fE53283Cb84089ea";
 var abi = [
   {
     "anonymous": false,
@@ -74,6 +74,12 @@ var abi = [
       {
         "indexed": false,
         "internalType": "uint256",
+        "name": "orderID",
+        "type": "uint256"
+      },
+      {
+        "indexed": false,
+        "internalType": "uint256",
         "name": "productID",
         "type": "uint256"
       },
@@ -102,6 +108,12 @@ var abi = [
   {
     "anonymous": false,
     "inputs": [
+      {
+        "indexed": false,
+        "internalType": "uint256",
+        "name": "orderID",
+        "type": "uint256"
+      },
       {
         "indexed": true,
         "internalType": "uint256",
@@ -176,6 +188,134 @@ var abi = [
   },
   {
     "inputs": [],
+    "name": "balance",
+    "outputs": [
+      {
+        "internalType": "uint256",
+        "name": "",
+        "type": "uint256"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function",
+    "constant": true
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "address",
+        "name": "",
+        "type": "address"
+      }
+    ],
+    "name": "emails",
+    "outputs": [
+      {
+        "internalType": "string",
+        "name": "",
+        "type": "string"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function",
+    "constant": true
+  },
+  {
+    "inputs": [],
+    "name": "isActive",
+    "outputs": [
+      {
+        "internalType": "bool",
+        "name": "",
+        "type": "bool"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function",
+    "constant": true
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "uint256",
+        "name": "",
+        "type": "uint256"
+      },
+      {
+        "internalType": "uint256",
+        "name": "",
+        "type": "uint256"
+      }
+    ],
+    "name": "orders",
+    "outputs": [
+      {
+        "internalType": "string",
+        "name": "name",
+        "type": "string"
+      },
+      {
+        "internalType": "string",
+        "name": "description",
+        "type": "string"
+      },
+      {
+        "internalType": "uint256",
+        "name": "price",
+        "type": "uint256"
+      },
+      {
+        "internalType": "uint256",
+        "name": "SKU",
+        "type": "uint256"
+      },
+      {
+        "internalType": "uint256",
+        "name": "quantity",
+        "type": "uint256"
+      },
+      {
+        "internalType": "uint256",
+        "name": "uniqueID",
+        "type": "uint256"
+      },
+      {
+        "internalType": "bool",
+        "name": "shipped",
+        "type": "bool"
+      },
+      {
+        "internalType": "uint256",
+        "name": "trackingNumber",
+        "type": "uint256"
+      },
+      {
+        "internalType": "address",
+        "name": "buyer",
+        "type": "address"
+      },
+      {
+        "internalType": "address payable",
+        "name": "seller",
+        "type": "address"
+      },
+      {
+        "internalType": "uint256",
+        "name": "storeID",
+        "type": "uint256"
+      },
+      {
+        "internalType": "uint256",
+        "name": "orderID",
+        "type": "uint256"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function",
+    "constant": true
+  },
+  {
+    "inputs": [],
     "name": "owner",
     "outputs": [
       {
@@ -235,11 +375,6 @@ var abi = [
       },
       {
         "internalType": "bool",
-        "name": "sold",
-        "type": "bool"
-      },
-      {
-        "internalType": "bool",
         "name": "shipped",
         "type": "bool"
       },
@@ -261,6 +396,11 @@ var abi = [
       {
         "internalType": "uint256",
         "name": "storeID",
+        "type": "uint256"
+      },
+      {
+        "internalType": "uint256",
+        "name": "orderID",
         "type": "uint256"
       }
     ],
@@ -310,11 +450,6 @@ var abi = [
       },
       {
         "internalType": "bool",
-        "name": "sold",
-        "type": "bool"
-      },
-      {
-        "internalType": "bool",
         "name": "shipped",
         "type": "bool"
       },
@@ -336,6 +471,11 @@ var abi = [
       {
         "internalType": "uint256",
         "name": "storeID",
+        "type": "uint256"
+      },
+      {
+        "internalType": "uint256",
+        "name": "orderID",
         "type": "uint256"
       }
     ],
@@ -621,11 +761,6 @@ var abi = [
     "outputs": [
       {
         "internalType": "bool",
-        "name": "sold",
-        "type": "bool"
-      },
-      {
-        "internalType": "bool",
         "name": "shipped",
         "type": "bool"
       },
@@ -819,7 +954,12 @@ var abi = [
     "inputs": [
       {
         "internalType": "uint256",
-        "name": "_uniqueID",
+        "name": "_orderID",
+        "type": "uint256"
+      },
+      {
+        "internalType": "uint256",
+        "name": "_productID",
         "type": "uint256"
       },
       {
@@ -863,6 +1003,13 @@ var abi = [
   {
     "inputs": [],
     "name": "withdrawAll",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "toggleCircuitBreaker",
     "outputs": [],
     "stateMutability": "nonpayable",
     "type": "function"

@@ -7,7 +7,6 @@ $(document).ready(function() {
         $("#contract-address").text(contractInstance.options.address);
         contractInstance.methods.getContractBalance().call()
         .then(function(result) {
-            console.log("contract has " + web3.utils.fromWei(result) + " ETH");
             $("#contract-balance").text(web3.utils.fromWei(result) + " ETH");
         })
         contractInstance.methods.owner().call()

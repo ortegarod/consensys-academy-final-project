@@ -146,53 +146,160 @@ $(document).ready(function() {
         });
 
                     contractInstance.getPastEvents('ProductSold', {filter: {seller: [accounts[0]]}, fromBlock: 0, toBlock: 'latest'}, function (error, events) {
-                        console.log(events);
-
                         for (i = 0; i < events.length; i++) {
-
                             var a = document.getElementById("new-orders");
-                            var g = document.createElement("div");
-                            g.id = "tracking-input";
                             var h = document.createElement("div");
-                            h.id = "ship-button";
+                            h.className = "order" + events[i].returnValues[0];
                             var b = document.createElement("BUTTON");
-                            b.id = events[i].returnValues[0];
+                            b.id = events[i].returnValues[1];
                             b.value = events[i].returnValues[0];
+                            b.className = "ship-button";
                             b.innerHTML = "SHIP";
                             var c = document.createElement("span");
-                            var d = document.createElement("LABEL");
-                            var e = document.createElement("br");
-                            var f = document.createElement("input");
-                            d.innerHTML="Product ID: ";
                             c.innerHTML= events[i].returnValues[0];
+                            var d = document.createElement("LABEL");
+                            d.innerHTML="Order ID: ";
+                            var e = document.createElement("p");
+                            var e2 = document.createElement("br");
+                            var f = document.createElement("input");
+                            f.id = "tracking-input" + events[i].returnValues[0];
 
-                            a.appendChild(d);                            
-                            a.appendChild(c);  
+                            var c2 = document.createElement("span");
+                            c2.id = "nopname" + events[i].returnValues[0];
+                            var d2 = document.createElement("LABEL");
+                            d2.innerHTML="Product Name: ";
+                            var e3 = document.createElement("br");
+                            
+                            var c3 = document.createElement("span");
+                            c3.innerHTML= "SKU of product";
+                            var d3 = document.createElement("LABEL");
+                            d3.innerHTML="SKU: ";
+                            var e4 = document.createElement("br");
+
+                            var c4 = document.createElement("span");
+                            c4.innerHTML= events[i].returnValues[2];
+                            var d4 = document.createElement("LABEL");
+                            d4.innerHTML="Buyer Address: ";
+                            var e5 = document.createElement("br");
+
+                            var c5 = document.createElement("span");
+                            c5.innerHTML= "shipped?";
+                            var d5 = document.createElement("LABEL");
+                            d5.innerHTML="Shipped?: ";
+                            var e6 = document.createElement("br");
+
+                            var c6 = document.createElement("span");
+                            c6.innerHTML= "tracking #";
+                            var d6 = document.createElement("LABEL");
+                            d6.innerHTML="Tracking #: ";
+                            var e7 = document.createElement("br");
+
+                            var c7 = document.createElement("span");
+                            c7.innerHTML= "buyer email #";
+                            var d7 = document.createElement("LABEL");
+                            d7.innerHTML="Buyer Email: ";
+                            var e8 = document.createElement("br");
+
+                            var c8 = document.createElement("span");
+                            c8.innerHTML= events[i].transactionHash;
+                            var d8 = document.createElement("LABEL");
+                            d8.innerHTML="TX Hash: ";
+                            var e9 = document.createElement("br");
                             a.appendChild(h);
+ 
+                            h.appendChild(d);      
+                            h.appendChild(c); 
+                            h.appendChild(e9); 
+                            h.appendChild(d8);  
+                            h.appendChild(c8);
+                            h.appendChild(e3); 
+                            
+                            h.appendChild(d2);  
+                            h.appendChild(c2); 
+
+                            h.appendChild(e4); 
+                            h.appendChild(d3);  
+                            h.appendChild(c3); 
+
+                            h.appendChild(e5); 
+                            h.appendChild(d4);  
+                            h.appendChild(c4); 
+
+                            h.appendChild(e8); 
+                            h.appendChild(d7);  
+                            h.appendChild(c7); 
+
+                            h.appendChild(e6); 
+                            h.appendChild(d5);  
+                            h.appendChild(c5); 
+
+                            h.appendChild(e7); 
+                            h.appendChild(d6);  
+                            h.appendChild(c6); 
+
+  
+
+ 
+
+                            h.appendChild(e2); 
                             h.appendChild(b);  
-                            a.appendChild(g);
-                            g.appendChild(f);
-                            a.appendChild(e);
+                            h.appendChild(f);
+                            h.appendChild(e);
+
+
+
+                            contractInstance.methods.orders(events[i].returnValues[0], events[i].returnValues[1]).call()
+                            .then(function(result) {
+                                console.log(result);
+                                var b = document.getElementById("nodata");
+
+                                var a = document.createElement("span");
+                                a.id = "pname" + result.orderID; 
+                                a.innerHTML = result.name;
+                                b.appendChild(a);
+                                $("#pname" + result.orderID).clone().appendTo("#nopname" + result.orderID);
+
+
+                            })
 
                         }
-                        $(document).on('click', '#new-orders', function(){ 
-                            var a = $(this).attr("id");
-                            console.log(a);
-                         });
+                        // for(let i = 0; i < document.getElementsByClassName("ship-button").length; i++) {
 
+                            document.getElementById("new-orders").addEventListener("click",function(e) {
+                            console.log(e.target.nodeName);
+                            console.log(e.target.value);
+                            var y = e.target.value;
+                            var x = document.getElementById("tracking-input" + y).value;
+                            console.log(x);
+
+                            contractInstance.methods.itemShipped(e.target.value, e.target.id, x).send()
+                            .on("receipt", function(receipt){ 
+                                console.log(receipt);
+                                location.reload();
+                            })                         
+                        });
+                        // }
                     })
 
-                    // contractInstance.methods.productsMapping(purchased_item_id).call()
-                    // .then(function(result) {
 
-                    // })
 
                     contractInstance.getPastEvents('ProductSold', {filter: {buyer: [accounts[0]]}, fromBlock: 0, toBlock: 'latest'}, function (error, events) {
-                        var table = document.getElementById("order-history");
-                            
+                        var hash_table = document.getElementById("hashes");
+                        console.log(events);
                             for (i = 0; i < events.length; i++) {
-                            var purchased_item_id = events[i].returnValues[0];
-                            var hash = events[i].transactionHash;
+                            var order_id = events[i].returnValues[0];
+                            var purchased_item_id = events[i].returnValues[1];
+                            var hash = [];
+                            hash.push(events[i].transactionHash);
+                            var tx_hash_label = document.createElement("LABEL");
+                            var tx_hash_span = document.createElement("span");
+                            tx_hash_span.id = "tx_hash" + events[i].returnValues[0];
+                            tx_hash_span.innerHTML = events[i].transactionHash;
+                            tx_hash_label.setAttribute("for", "tx_hash");
+                            tx_hash_label.innerHTML = "TX Hash: ";
+                            hash_table.appendChild(tx_hash_label);
+                            hash_table.appendChild(tx_hash_span);
+                            hash_table.appendChild(document.createElement("br"));
 
                             // web3.eth.getBlock(events[i].blockNumber, function(error, block) {
 
@@ -210,23 +317,15 @@ $(document).ready(function() {
                             //     table.appendChild(document.createElement("br"));
                                 
                             // });
-                            var tx_hash_label = document.createElement("LABEL");
-                            tx_hash_label.setAttribute("for", "tx_hash");
-                            tx_hash_label.innerHTML = "TX Hash: ";
-                            table.appendChild(tx_hash_label);
-                            var tx_hash_span = document.createElement("span");
-                            tx_hash_span.id = "tx_hash";
-                            tx_hash_span.innerHTML = hash;
-                            table.appendChild(tx_hash_span);
-                            table.appendChild(document.createElement("br"));
+                            
 
-                            var xyz;
 
-                            contractInstance.methods.productsMapping(purchased_item_id).call()
+                            contractInstance.methods.orders(order_id, purchased_item_id).call()
                             .then(function(result) {
-
-                                xyz = result.name;
-
+                                var table = document.getElementById("order-history");
+                                    tx_hash_div = document.createElement("div");
+                                    tx_hash_div.id = "tx_hash_div" + result.orderID;
+                                    table.appendChild(tx_hash_div);
 
                                 var name_label = document.createElement("LABEL");
                                 name_label.setAttribute("for", "name");
@@ -257,8 +356,18 @@ $(document).ready(function() {
                                 tracking_span.innerHTML = result.trackingNumber;
                                 table.appendChild(tracking_span);
                                 table.appendChild(document.createElement("br"));
-                                
+                                table.appendChild(document.createElement("p"));
 
+                                var name_label = document.createElement("LABEL");
+                                name_label.setAttribute("for", "name");
+                                name_label.innerHTML = "TX Hash: ";
+                                $("#tx_hash_div" + result.uniqueID).append(name_label);
+                                var name_span = document.createElement("span");
+                                name_span.id = "name";            
+                                name_span.innerHTML = hash;
+                                // $("#tx_hash_div" + result.uniqueID).append(name_span);
+                                // $("#tx_hash_div" + result.uniqueID).append(document.createElement("br"));
+                                $("#tx_hash" + result.orderID).clone().appendTo("#tx_hash_div" + result.orderID);
 
                             })
 
@@ -267,7 +376,7 @@ $(document).ready(function() {
 
 
                         }
-                            
+
                     })
     })
 

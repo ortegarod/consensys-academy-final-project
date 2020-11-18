@@ -10,7 +10,7 @@ contract OnlineMarketplace is Ownable {
     
     event StoreCreated(string newStoreName, address owner, uint storeID);
     event ProductCreated(string newProductName, uint price, uint SKU, uint quantity, uint uniqueID, address seller, uint storeID);
-    event ProductSold(uint orderID, uint indexed productID, address indexed buyer, address indexed seller, uint price);
+    event ProductSold(uint orderID, uint indexed productID, address indexed buyer, address indexed seller, uint price, string email);
     event ProductShipped(uint orderID, uint productID, uint trackingNumber, address indexed seller, address indexed buyer);
     event UserRegistered(address indexed user, string email);
 
@@ -141,8 +141,8 @@ contract OnlineMarketplace is Ownable {
 /// @dev called externally, used for retrieving a person's email address using thee associated Ethereum public address in front-end
 /// @param _address The person's Ethereum public address
 /// @return email address
-    function getEmail(address _address) external view returns (string memory email) {
-        return emails[_address];
+    function getEmail(address _address) external view returns (string memory email, address buyer) {
+        return (emails[_address], _address);
     }
 
 /// @notice getter function for contract's current balance
@@ -221,7 +221,7 @@ contract OnlineMarketplace is Ownable {
         orders[orderID][_productID].buyer = msg.sender;
         orders[orderID][_productID].orderID = orderID;
 
-        emit ProductSold(orderID,_productID, msg.sender, productsMapping[_productID].seller, productsMapping[_productID].price);
+        emit ProductSold(orderID,_productID, msg.sender, productsMapping[_productID].seller, productsMapping[_productID].price, emails[msg.sender]);
     }
 
 /// @notice setter function for updating trackingNumber once product is shipped

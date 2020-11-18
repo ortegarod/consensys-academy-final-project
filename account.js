@@ -15,7 +15,7 @@ $(document).ready(function() {
         contractInstance.methods.getEmail(accounts[0]).call()
         .then(function (result) {
             if (result != "") {
-                $("#email-address").text(result);
+                $("#email-address").text(result[0]);
                 var a = document.getElementById("sign-up");
                 a.style.display = "none";
             } else {
@@ -26,7 +26,7 @@ $(document).ready(function() {
                     .on("receipt", function(receipt){ 
                         console.log(receipt);
                         location.reload();
-                        $("#email-address").text(result);
+                        $("#email-address").text(result[0]);
                     }) 
                 }
             }
@@ -163,6 +163,7 @@ $(document).ready(function() {
                             var e2 = document.createElement("br");
                             var f = document.createElement("input");
                             f.id = "tracking-input" + events[i].returnValues[0];
+                            f.name = events[i].returnValues[0];
 
                             var c2 = document.createElement("span");
                             c2.id = "nopname" + events[i].returnValues[0];
@@ -171,7 +172,7 @@ $(document).ready(function() {
                             var e3 = document.createElement("br");
                             
                             var c3 = document.createElement("span");
-                            c3.innerHTML= "SKU of product";
+                            c3.id= "nopSKU" + events[i].returnValues[0];
                             var d3 = document.createElement("LABEL");
                             d3.innerHTML="SKU: ";
                             var e4 = document.createElement("br");
@@ -183,21 +184,21 @@ $(document).ready(function() {
                             var e5 = document.createElement("br");
 
                             var c5 = document.createElement("span");
-                            c5.innerHTML= "shipped?";
+                            c5.id= "nopshipped" + events[i].returnValues[0];
                             var d5 = document.createElement("LABEL");
-                            d5.innerHTML="Shipped?: ";
+                            d5.innerHTML="Shipped: ";
                             var e6 = document.createElement("br");
 
                             var c6 = document.createElement("span");
-                            c6.innerHTML= "tracking #";
+                            c6.id= "noptracking" + events[i].returnValues[0];
                             var d6 = document.createElement("LABEL");
-                            d6.innerHTML="Tracking #: ";
+                            d6.innerHTML="Tracking Number: ";
                             var e7 = document.createElement("br");
 
                             var c7 = document.createElement("span");
-                            c7.innerHTML= "buyer email #";
+                            c7.innerHTML= events[i].returnValues[5];
                             var d7 = document.createElement("LABEL");
-                            d7.innerHTML="Buyer Email: ";
+                            d7.innerHTML= "Buyer Email: ";
                             var e8 = document.createElement("br");
 
                             var c8 = document.createElement("span");
@@ -257,26 +258,58 @@ $(document).ready(function() {
                                 a.id = "pname" + result.orderID; 
                                 a.innerHTML = result.name;
                                 b.appendChild(a);
+
+                                var c = document.createElement("span");
+                                c.id = "pSKU" + result.orderID; 
+                                c.innerHTML = result.SKU;
+                                b.appendChild(c);
+
+                                var d = document.createElement("span");
+                                d.id = "pshipped" + result.orderID; 
+                                d.innerHTML = result.shipped;
+                                b.appendChild(d);
+
+                                var e = document.createElement("span");
+                                e.id = "ptracking" + result.orderID; 
+                                e.innerHTML = result.trackingNumber;
+                                b.appendChild(e);
+
                                 $("#pname" + result.orderID).clone().appendTo("#nopname" + result.orderID);
-
-
+                                $("#pSKU" + result.orderID).clone().appendTo("#nopSKU" + result.orderID);
+                                $("#pshipped" + result.orderID).clone().appendTo("#nopshipped" + result.orderID);
+                                $("#ptracking" + result.orderID).clone().appendTo("#noptracking" + result.orderID);
                             })
 
+                            // contractInstance.methods.getEmail(events[i].returnValues[2]).call()
+                            // .then(function(result) {
+                            //     console.log(result);
+                            //     var b = document.getElementById("nodata");
+
+                            //     var a = document.createElement("span");
+                            //     a.id = "pemail_" + result[1]; 
+                            //     a.innerHTML = result[0];
+                            //     b.appendChild(a);
+                            //     $("#pemail_" + result[1]).clone().appendTo("#nopemail" + result[1]);
+
+                            // })
                         }
                         // for(let i = 0; i < document.getElementsByClassName("ship-button").length; i++) {
 
                             document.getElementById("new-orders").addEventListener("click",function(e) {
-                            console.log(e.target.nodeName);
+                                if(e.target && e.target.nodeName == "BUTTON") {
+                                console.log(e.target.nodeName);
                             console.log(e.target.value);
                             var y = e.target.value;
                             var x = document.getElementById("tracking-input" + y).value;
                             console.log(x);
-
+  
                             contractInstance.methods.itemShipped(e.target.value, e.target.id, x).send()
                             .on("receipt", function(receipt){ 
                                 console.log(receipt);
                                 location.reload();
-                            })                         
+                            })             
+                        }
+            
                         });
                         // }
                     })

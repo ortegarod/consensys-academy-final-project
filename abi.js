@@ -1,4 +1,4 @@
-var deployment_address = "0x56CeA108146Bb43600Ea2712fE53283Cb84089ea";
+var deployment_address = "0x131A82AfBdfa29542edAcACEF34BD02ECc5d99ed";
 var abi = [
   {
     "anonymous": false,
@@ -137,6 +137,12 @@ var abi = [
         "internalType": "uint256",
         "name": "price",
         "type": "uint256"
+      },
+      {
+        "indexed": false,
+        "internalType": "string",
+        "name": "email",
+        "type": "string"
       }
     ],
     "name": "ProductSold",
@@ -848,6 +854,11 @@ var abi = [
         "internalType": "string",
         "name": "email",
         "type": "string"
+      },
+      {
+        "internalType": "address",
+        "name": "buyer",
+        "type": "address"
       }
     ],
     "stateMutability": "view",

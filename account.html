@@ -32,6 +32,8 @@
                 You must register your account before you can buy items. Your email will be linked to your public Ethereum address. 
             </div>
             <hr>
+            <button type="button" id="show-add-store-form">ADD STORE ►</button><br>
+            <div id="add-store-form" style=display:none;>
             <label for="storeName"><h3>ADD STORE FOR ONLY 0.005 ETH</h3>Store Name:</label>
             <input type="text" id="storeName" name="storeName"><br>
             <label for="store-description">Description:</label>
@@ -41,49 +43,69 @@
             <label for="store-email">Contact Email:</label>
             <input type="text" id="store-email" name="store-email"><br><br>
             <button type="button" class="addStore" id="addStore">ADD STORE (COST: 0.005 ETH)</button>
+            </div>
             <hr>
             <label for="storeName"><h2>MY STORES:</h2><p>Click on a store to view or add products</p></label>
             <ul id="store-menu">
             </ul>
+
             <div id="my-products-menu-id" style=display:none>
+                <button type="button" id="show-add-product"><span id="show-add-product-name">ADD PRODUCT ►</span></button><p></p>
+                <div id="add-product-form" style=display:none;>
+                    <label for="store-name">Store:</label>
+                    <span id="store-name"></span><p>
+                    <label for="product-name">Product Name:</label>
+                    <input type="text" id="product-name" name="product-name"><p>
+                    <label for="product-description">Product Description:</label>
+                    <input type="text" id="product-description" name="product-name"><p>
+                    <label for="product-price">Price (ETH):</label>
+                    <input type="text" id="product-price" name="product-price"><p>
+                    <label for="product-SKU">SKU:</label>
+                    <input type="text" id="product-SKU" name="product-SKU"><p>
+                    <label for="product-quantity">Quantity Available:</label>
+                    <input type="text" id="product-quantity" name="product-quantity"><p></p>
+                    <!-- <label for="product-storeID">Store ID:</label>
+                    <input type="text" id="product-storeID" name="product-storeID"><br><br> -->
+                    <button type="button" class="add-product" id="add-product">SUBMIT (COST: 0.001 ETH)</button>
+                </div>
             <label for="my-products-menu"><h2>PRODUCTS LISTED:</h2><p>Click on a product to view details</p></label>
-            <ul id="my-products-menu">
-            </ul>
+            <ol id="my-products-menu">
+            </ol>
             </div>
             <div id="my-products-detail-menu-id" style=display:none>
-            <label for="my-products-detail-menu"><h2>PRODUCT DETAIL:</h2></label>
-            <label for="product-name-label">Name:</label>
-            <span id="product-name-label"></span><p>
-            <label for="product-description-label">Description:</label>
-            <span id="product-description-label"></span><p>
-            <label for="product-price-label">Price (ETH):</label>
-            <span id="product-price-label"></span><p>
-            <label for="product-SKU-label">SKU:</label>
-            <span id="product-SKU-label"></span><p>
-            <label for="product-quantity-label">Quantity:</label>
-            <span id="product-quantity-label"></span><br>
+                <label for="my-products-detail-menu"><h3>PRODUCT DETAIL:</h3></label>
+                <label for="product-name-label">Name:</label>
+                <span id="product-name-label"></span><p>
+                <label for="product-description-label">Description:</label>
+                <span id="product-description-label"></span><p>
+                <label for="product-price-label">Price (ETH):</label>
+                <span id="product-price-label"></span><p>
+                <label for="product-SKU-label">SKU:</label>
+                <span id="product-SKU-label"></span><p>
+                <label for="product-quantity-label">Quantity:</label>
+                <span id="product-quantity-label"></span><br>
+                <p></p>
+            <button type="button" class="edit-product-button" id="edit-product-button"><span id="edit-product-button-name">EDIT PRODUCT ►</span></button>
             <p></p>
-            <button type="button" class="edit-product-button" id="edit-product-button">EDIT PRODUCT</button>
+
+            <div id="edit-product-form" style=display:none;>
+                <label for="uproduct-name-label">Name:</label>
+                <input id="uproduct-name-label"></input><p>
+                <label for="uproduct-description-label">Description:</label>
+                <input id="uproduct-description-label"></input><p>
+                <label for="uproduct-price-label">Price (ETH):</label>
+                <input id="uproduct-price-label"></input><p>
+                <label for="uproduct-SKU-label">SKU:</label>
+                <input id="uproduct-SKU-label"></input><p>
+                <label for="uproduct-quantity-label">Quantity:</label>
+                <input id="uproduct-quantity-label"></input><br><br>
+                <button type="button" id="update-product-button"><span id="update-product-button-name">SUBMIT</span></button>
+
+                <p></p>
+            </div>
             </div>
         </div>
-        <div id="add-product-form" style=display:none;>
-            <h2>ADD PRODUCT:</h2><p></p>
-            <label for="store-name">Store:</label>
-            <span id="store-name"></span><p>
-            <label for="product-name">Product Name:</label>
-            <input type="text" id="product-name" name="product-name"><p>
-            <label for="product-description">Product Description:</label>
-            <input type="text" id="product-description" name="product-name"><p>
-            <label for="product-price">Price (ETH):</label>
-            <input type="text" id="product-price" name="product-price"><p>
-            <label for="product-SKU">SKU:</label>
-            <input type="text" id="product-SKU" name="product-SKU"><p>
-            <label for="product-quantity">Quantity Available:</label>
-            <input type="text" id="product-quantity" name="product-quantity"><p></p>
-            <!-- <label for="product-storeID">Store ID:</label>
-            <input type="text" id="product-storeID" name="product-storeID"><br><br> -->
-            <button type="button" class="add-product" id="add-product">ADD PRODUCT (COST: 0.001 ETH)</button>
-        </div>
+
         <div id="new-orders">
             <hr>
             <h2>NEW ORDERS:</h2><p></p>

@@ -1,4 +1,4 @@
-var deployment_address = "0x131A82AfBdfa29542edAcACEF34BD02ECc5d99ed";
+var deployment_address = "0xBbF8f37Bb9A89d989b692CACAcCBD08f6932Dc1e";
 var abi = [
   {
     "anonymous": false,
@@ -146,6 +146,55 @@ var abi = [
       }
     ],
     "name": "ProductSold",
+    "type": "event"
+  },
+  {
+    "anonymous": false,
+    "inputs": [
+      {
+        "indexed": false,
+        "internalType": "string",
+        "name": "newProductName",
+        "type": "string"
+      },
+      {
+        "indexed": false,
+        "internalType": "uint256",
+        "name": "price",
+        "type": "uint256"
+      },
+      {
+        "indexed": false,
+        "internalType": "uint256",
+        "name": "SKU",
+        "type": "uint256"
+      },
+      {
+        "indexed": false,
+        "internalType": "uint256",
+        "name": "quantity",
+        "type": "uint256"
+      },
+      {
+        "indexed": false,
+        "internalType": "uint256",
+        "name": "uniqueID",
+        "type": "uint256"
+      },
+      {
+        "indexed": false,
+        "internalType": "address",
+        "name": "seller",
+        "type": "address"
+      },
+      {
+        "indexed": false,
+        "internalType": "uint256",
+        "name": "storeID",
+        "type": "uint256"
+      }
+    ],
+    "name": "ProductUpdated",
     "type": "event"
   },
   {
@@ -946,6 +995,54 @@ var abi = [
     "stateMutability": "payable",
     "type": "function",
     "payable": true
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "uint256",
+        "name": "_index",
+        "type": "uint256"
+      },
+      {
+        "internalType": "string",
+        "name": "_name",
+        "type": "string"
+      },
+      {
+        "internalType": "string",
+        "name": "_description",
+        "type": "string"
+      },
+      {
+        "internalType": "uint256",
+        "name": "_price",
+        "type": "uint256"
+      },
+      {
+        "internalType": "uint256",
+        "name": "_SKU",
+        "type": "uint256"
+      },
+      {
+        "internalType": "uint256",
+        "name": "_quantity",
+        "type": "uint256"
+      },
+      {
+        "internalType": "uint256",
+        "name": "_storeID",
+        "type": "uint256"
+      },
+      {
+        "internalType": "uint256",
+        "name": "_uniqueID",
+        "type": "uint256"
+      }
+    ],
+    "name": "editProduct",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
   },
   {
     "inputs": [

@@ -1,6 +1,10 @@
 var web3 = new Web3(Web3.givenProvider);
 var contractInstance;
 var len;
+var store_index;
+var product_index;
+var product_id;
+
 
 $(document).ready(function() {
 
@@ -54,11 +58,12 @@ $(document).ready(function() {
             // try doing console.log(e.target.nodeName), it will result LI
             if(e.target && e.target.nodeName == "LI") {
                     console.log(e.target.id + " was clicked");
+                    store_index = e.target.id;
                     $('#my-products-menu').empty();
                     var a = document.getElementById("my-products-menu-id");
                     a.style.display = "block";
-                    var b = document.getElementById("add-product-form");
-                    b.style.display = "block";
+                    // var b = document.getElementById("add-product-form");
+                    // b.style.display = "block";
                     var c = document.getElementById("my-products-detail-menu-id");
                     c.style.display = "none";
                     $("#add-product").click(addProduct)
@@ -76,6 +81,7 @@ $(document).ready(function() {
                                 var list = document.getElementById("my-products-menu");
                                 var item = document.createElement("li");
                                 item.id = result[5];
+                                item.name = 1;
                                 item.innerHTML = input;
                                 list.appendChild(item);
                             })
@@ -96,6 +102,11 @@ $(document).ready(function() {
                                     .on("receipt", function(receipt){ 
                                         console.log(receipt);
                                         $('#my-products-menu').empty();
+                                        $("#product-name").val("");
+                                        $("#product-description").val("");
+                                        $("#product-price").val("");
+                                        $("#product-SKU").val("");
+                                        $("#product-quantity").val("");
                                         contractInstance.methods.getProductsMALength(e.target.id).call()
                                         .then(function(result) {
                                             length = result;
@@ -122,14 +133,17 @@ $(document).ready(function() {
             // try doing console.log(e.target.nodeName), it will result LI
             if(e.target && e.target.nodeName == "LI") {
                     console.log(e.target.id + " was clicked");
+                    product_id = e.target.id;
+                    product_index = e.target.value;
+                    document.getElementById("edit-product-form").style.display="none";
                     $('#my-products-detail-menu').empty();
                     var a = document.getElementById("my-products-detail-menu-id");
                     a.style.display = "block";
                     var b = document.getElementById("edit-product-button");
                     b.style.display = "block";
-                    var c = document.getElementById("add-product-form");
-                    c.style.display = "none";
-                    $("#edit-product-button").click(editItem)
+                    // var c = document.getElementById("add-product-form");
+                    // c.style.display = "none";
+
                             contractInstance.methods.productsMapping(e.target.id).call()
                             .then(function(result) {
                                 console.log(result);
@@ -140,11 +154,76 @@ $(document).ready(function() {
                                 $("#product-quantity-label").text(result[4]);
                             })
             }
-                                    function editItem () {
-                                        location.reload();
-                                    }
+
+
+
+
         });
 
+        $("#show-add-store-form").click(openAddStoreForm)
+        $("#show-add-product").click(openAddProductForm)
+        $("#update-product-button").click(editItem)
+        $("#edit-product-button").click(openEdit)
+
+        function openAddStoreForm () {
+            var x = document.getElementById("add-store-form");
+            var y = document.getElementById("show-add-store-form");
+           
+            if (x.style.display === "none") {
+                x.style.display = "block";
+                y.innerHTML = "ADD STORE ▼";
+              } else {
+                x.style.display = "none";
+                y.innerHTML = "ADD STORE ►";
+              }
+         }
+
+        function openAddProductForm () {
+            var x = document.getElementById("add-product-form");
+            var y = document.getElementById("show-add-product");
+           
+            if (x.style.display === "none") {
+                x.style.display = "block";
+                y.innerHTML = "ADD PRODUCT ▼";
+              } else {
+                x.style.display = "none";
+                y.innerHTML = "ADD PRODUCT ►";
+              }
+         }
+
+        function openEdit () {
+            var x = document.getElementById("edit-product-form");
+            var y = document.getElementById("edit-product-button-name");
+           
+            if (x.style.display === "none") {
+                x.style.display = "block";
+                y.innerHTML = "EDIT PRODUCT ▼";
+                document.getElementById("uproduct-name-label").value = document.getElementById("product-name-label").innerHTML;
+                document.getElementById("uproduct-description-label").value = document.getElementById("product-description-label").innerHTML;
+                document.getElementById("uproduct-price-label").value = document.getElementById("product-price-label").innerHTML;
+                document.getElementById("uproduct-SKU-label").value = document.getElementById("product-SKU-label").innerHTML;
+                document.getElementById("uproduct-quantity-label").value = document.getElementById("product-quantity-label").innerHTML;
+
+              } else {
+                x.style.display = "none";
+                y.innerHTML = "EDIT PRODUCT ►";
+              }
+         }
+
+        function editItem() {
+            contractInstance.methods.editProduct(product_index, document.getElementById("uproduct-name-label").value, document.getElementById("uproduct-description-label").value, web3.utils.toWei(document.getElementById("uproduct-price-label").value), document.getElementById("uproduct-SKU-label").value, document.getElementById("uproduct-quantity-label").value, store_index, product_id).send()
+            .on("receipt", function() {
+                contractInstance.methods.productsMapping(product_id).call()
+                .then(function(result) {
+                    console.log(result);
+                    $("#product-name-label").text(result[0]);
+                    $("#product-description-label").text(result[1]);
+                    $("#product-price-label").text(web3.utils.fromWei(result[2], 'ether'));
+                    $("#product-SKU-label").text(result[3]);
+                    $("#product-quantity-label").text(result[4]);
+                })
+            })
+        }
                     contractInstance.getPastEvents('ProductSold', {filter: {seller: [accounts[0]]}, fromBlock: 0, toBlock: 'latest'}, function (error, events) {
                         for (i = 0; i < events.length; i++) {
                             var a = document.getElementById("new-orders");
@@ -435,10 +514,12 @@ function addStore () {
     contractInstance.methods.newStore(name, description, website, email).send(config)
     .on("receipt", function(receipt){ 
         console.log(receipt);
+        $("#storeName").val("");
+        $("#store-description").val("");
+        $("#store-website").val("");
+        $("#store-email").val("");
         location.reload();
-    }) 
-    .then(function(result){
-        console.log(result);
+
     }) 
 }
 

@@ -10,6 +10,7 @@ contract OnlineMarketplace is Ownable {
     
     event StoreCreated(string newStoreName, address owner, uint storeID);
     event ProductCreated(string newProductName, uint price, uint SKU, uint quantity, uint uniqueID, address seller, uint storeID);
+    event ProductUpdated(string newProductName, uint price, uint SKU, uint quantity, uint uniqueID, address seller, uint storeID);
     event ProductSold(uint orderID, uint indexed productID, address indexed buyer, address indexed seller, uint price, string email);
     event ProductShipped(uint orderID, uint productID, uint trackingNumber, address indexed seller, address indexed buyer);
     event UserRegistered(address indexed user, string email);
@@ -206,6 +207,23 @@ contract OnlineMarketplace is Ownable {
     function insertProduct(Products memory c, uint storeID, uint _uniqueID) private {
         products[storeID].push(c);
         productsMapping[_uniqueID] = c;
+    }
+
+    function editProduct(uint _index, string calldata _name, string calldata _description, uint _price, uint _SKU, uint _quantity, uint _storeID, uint _uniqueID) external requireIsActive {
+
+        products[_storeID][_index].name = _name;
+        products[_storeID][_index].description = _description;
+        products[_storeID][_index].price = _price;
+        products[_storeID][_index].SKU = _SKU;
+        products[_storeID][_index].quantity = _quantity;
+
+        productsMapping[_uniqueID].name = _name;
+        productsMapping[_uniqueID].description = _description;
+        productsMapping[_uniqueID].price = _price;
+        productsMapping[_uniqueID].SKU = _SKU;
+        productsMapping[_uniqueID].quantity = _quantity;
+
+        emit ProductUpdated(_name, _price, _SKU, _quantity, _uniqueID, msg.sender, _storeID);
     }
     
 /// @notice function executed when purchasing a product 

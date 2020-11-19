@@ -21,12 +21,14 @@ $(document).ready(function() {
         $("#ether_wallet").text(account);
         contractInstance.methods.getEmail(accounts[0]).call()
         .then(function (result) {
-            if (result != "") {
+            if (result[0] != "") {
+                console.log(result);
                 $("#email-address").text(result[0]);
                 var a = document.getElementById("sign-up");
                 a.style.display = "none";
             } else {
                 $("#register-email-button").click(register);
+                $("#email-address").text("n/a");
                 function register() {
                     var email = $("#email-input").val();
                     contractInstance.methods.register(email).send()
@@ -236,7 +238,7 @@ $(document).ready(function() {
                             b.id = events[i].returnValues[1];
                             b.value = events[i].returnValues[0];
                             b.className = "ship-button";
-                            b.innerHTML = "SHIP";
+                            b.innerHTML = "UPDATE TRACKING";
                             var c = document.createElement("span");
                             c.innerHTML= events[i].returnValues[0];
                             var d = document.createElement("LABEL");

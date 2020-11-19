@@ -82,17 +82,17 @@ OnlineMarketplace onlinemarketplace = OnlineMarketplace(DeployedAddresses.Online
     //     Assert.isTrue(sold, "product status should get changed to sold");
     // }
 
-    function testItemShipped() public {
-        onlinemarketplace.itemShipped(20, 123456789);
-        bool sold;
-        bool shipped;
-        uint trackingNumber;
-        address buyer;
-        address seller;
-        uint storeID;
-        (sold, shipped, trackingNumber, buyer, seller, storeID) = onlinemarketplace.getProductB(20);
-        Assert.equal(trackingNumber, 123456789, "product should have tracking number after shipped");
-    }
+    // function testItemShipped() public {
+    //     onlinemarketplace.itemShipped(20, 123456789);
+    //     bool sold;
+    //     bool shipped;
+    //     uint trackingNumber;
+    //     address buyer;
+    //     address seller;
+    //     uint storeID;
+    //     (sold, shipped, trackingNumber, buyer, seller, storeID) = onlinemarketplace.getProductB(20);
+    //     Assert.equal(trackingNumber, 123456789, "product should have tracking number after shipped");
+    // }
 
     function testGetBalance() public {
         uint result = onlinemarketplace.getBalance();

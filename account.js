@@ -14,6 +14,9 @@ $(document).ready(function() {
         })
         contractInstance = new web3.eth.Contract(abi, deployment_address, {from: accounts[0]});
         console.log(contractInstance);
+        web3.eth.getBalance(accounts[0]).then(function(result){
+            $("#connected-account-ether-balance").text(web3.utils.fromWei(result) + " ETH");
+        })
         var account = web3.currentProvider.selectedAddress
         $("#ether_wallet").text(account);
         contractInstance.methods.getEmail(accounts[0]).call()

@@ -2,10 +2,6 @@
     min-height: 400px;
 }
 
-/* .top-header-wrapper {
-
-} */
-
 #page-container {
     position: relative;
     min-height: 100vh;
@@ -23,7 +19,6 @@
     height: 2.5rem;            /* Footer height */
     font-size: 12px;
 }
-
 
 br { clear:left }
 

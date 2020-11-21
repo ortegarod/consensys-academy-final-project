@@ -401,8 +401,7 @@ $(document).ready(function() {
 
 
                     contractInstance.getPastEvents('ProductSold', {filter: {buyer: [accounts[0]]}, fromBlock: 0, toBlock: 'latest'}, function (error, events) {
-                        var hash_table = document.getElementById("hashes");
-                        console.log(events);
+                        var hash_table = document.getElementById("hashes"); // order history tx hash data is copied from this hidden div
                             for (i = 0; i < events.length; i++) {
                             var order_id = events[i].returnValues[0];
                             var purchased_item_id = events[i].returnValues[1];
@@ -412,7 +411,7 @@ $(document).ready(function() {
                             var tx_hash_span = document.createElement("span");
                             tx_hash_span.id = "tx_hash" + events[i].returnValues[0];
                             tx_hash_span.innerHTML = events[i].transactionHash;
-                            tx_hash_label.setAttribute("for", "tx_hash");
+                            tx_hash_label.setAttribute("for", "tx_hash" + events[i].returnValues[0]);
                             tx_hash_label.innerHTML = "TX Hash: ";
                             hash_table.appendChild(tx_hash_label);
                             hash_table.appendChild(tx_hash_span);
@@ -440,9 +439,13 @@ $(document).ready(function() {
                             contractInstance.methods.orders(order_id, purchased_item_id).call()
                             .then(function(result) {
                                 var table = document.getElementById("order-history");
-                                    tx_hash_div = document.createElement("div");
-                                    tx_hash_div.id = "tx_hash_div" + result.orderID;
-                                    table.appendChild(tx_hash_div);
+
+                                var hash_label = document.createElement("LABEL");
+                                hash_label.setAttribute("for", "tx_hash" + result.orderID);
+                                hash_label.innerHTML = "TX Hash: ";
+                                table.appendChild(hash_label);
+                                $("#tx_hash" + result.orderID).clone().appendTo(table);
+                                table.appendChild(document.createElement("br"));
 
                                 var name_label = document.createElement("LABEL");
                                 name_label.setAttribute("for", "name");
@@ -474,31 +477,12 @@ $(document).ready(function() {
                                 table.appendChild(tracking_span);
                                 table.appendChild(document.createElement("br"));
                                 table.appendChild(document.createElement("p"));
-
-                                var name_label = document.createElement("LABEL");
-                                name_label.setAttribute("for", "name");
-                                name_label.innerHTML = "TX Hash: ";
-                                $("#tx_hash_div" + result.uniqueID).append(name_label);
-                                var name_span = document.createElement("span");
-                                name_span.id = "name";            
-                                name_span.innerHTML = hash;
-                                // $("#tx_hash_div" + result.uniqueID).append(name_span);
-                                // $("#tx_hash_div" + result.uniqueID).append(document.createElement("br"));
-                                $("#tx_hash" + result.orderID).clone().appendTo("#tx_hash_div" + result.orderID);
-
                             })
-
-
-
-
-
                         }
-
                     })
     })
 
     $("#addStore").click(addStore)
-
 
 })
 

@@ -41,7 +41,7 @@ OnlineMarketplace onlinemarketplace = OnlineMarketplace(DeployedAddresses.Online
         uint _uniqueID = 7;
 
         (name, description, price, SKU, quantity, uniqueID) = onlinemarketplace.getProductA(_uniqueID);
-        Assert.equal(name, "juice", "Name of product at mapping value=7 (unique id=7) should be: juice");
+        Assert.equal(name, "Orange Juice", "Name of product at mapping value=7 (unique id=7) should be: Orange Juice");
     }
 
     function testNewStore() public {
@@ -72,25 +72,25 @@ OnlineMarketplace onlinemarketplace = OnlineMarketplace(DeployedAddresses.Online
 
     // function testBuyItem() public {
     //     onlinemarketplace.buyItem.value(1)(20);
-    //     bool sold;
     //     bool shipped;
     //     uint trackingNumber;
     //     address buyer;
     //     address seller;
     //     uint storeID;
-    //     (sold, shipped, trackingNumber, buyer, seller, storeID) = onlinemarketplace.getProductB(20);
-    //     Assert.isTrue(sold, "product status should get changed to sold");
+    //     uint orderID;
+    //     (shipped, trackingNumber, buyer, seller, storeID, orderID) = onlinemarketplace.getProductB(20);
+    //     Assert.equal(orderID, 21, "Product instance should get created with unique order ID");
     // }
 
     // function testItemShipped() public {
     //     onlinemarketplace.itemShipped(20, 123456789);
-    //     bool sold;
     //     bool shipped;
     //     uint trackingNumber;
     //     address buyer;
     //     address seller;
     //     uint storeID;
-    //     (sold, shipped, trackingNumber, buyer, seller, storeID) = onlinemarketplace.getProductB(20);
+    //     uint orderID;
+    //     (shipped, trackingNumber, buyer, seller, storeID, orderID) = onlinemarketplace.getProductB(20);
     //     Assert.equal(trackingNumber, 123456789, "product should have tracking number after shipped");
     // }
 

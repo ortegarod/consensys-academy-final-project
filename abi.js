@@ -1,4 +1,4 @@
-var deployment_address = "0xBbF8f37Bb9A89d989b692CACAcCBD08f6932Dc1e";
+var deployment_address = "0x59A1a752844C78f2bf58C4064aAcD87Fa3Bd3623";
 var abi = [
   {
     "anonymous": false,

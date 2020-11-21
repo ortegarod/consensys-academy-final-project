@@ -248,6 +248,7 @@ contract OnlineMarketplace is Ownable {
 /// @param _productID The product's unique ID
 /// @param _trackingNumber The product's tracking number when shipped
     function itemShipped(uint _orderID, uint _productID, uint _trackingNumber) external {
+        require(orders[_orderID][_productID].seller == msg.sender);
         orders[_orderID][_productID].trackingNumber = _trackingNumber;
         orders[_orderID][_productID].shipped = true;
         emit ProductShipped(_orderID, _productID, _trackingNumber, productsMapping[_productID].seller, orders[_orderID][_productID].buyer);

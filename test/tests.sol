@@ -70,30 +70,6 @@ OnlineMarketplace onlinemarketplace = OnlineMarketplace(DeployedAddresses.Online
         Assert.equal(result, "testproduct", "product should get pushed to array in products mapping using storeID");
     }
 
-    // function testBuyItem() public {
-    //     onlinemarketplace.buyItem.value(1)(20);
-    //     bool shipped;
-    //     uint trackingNumber;
-    //     address buyer;
-    //     address seller;
-    //     uint storeID;
-    //     uint orderID;
-    //     (shipped, trackingNumber, buyer, seller, storeID, orderID) = onlinemarketplace.getProductB(20);
-    //     Assert.equal(orderID, 21, "Product instance should get created with unique order ID");
-    // }
-
-    // function testItemShipped() public {
-    //     onlinemarketplace.itemShipped(20, 123456789);
-    //     bool shipped;
-    //     uint trackingNumber;
-    //     address buyer;
-    //     address seller;
-    //     uint storeID;
-    //     uint orderID;
-    //     (shipped, trackingNumber, buyer, seller, storeID, orderID) = onlinemarketplace.getProductB(20);
-    //     Assert.equal(trackingNumber, 123456789, "product should have tracking number after shipped");
-    // }
-
     function testGetBalance() public {
         uint result = onlinemarketplace.getBalance();
         Assert.equal(result, .035 ether, "contract balance should be 0.035 ether");

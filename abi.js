@@ -1,4 +1,4 @@
-var deployment_address = "0x59A1a752844C78f2bf58C4064aAcD87Fa3Bd3623";
+var deployment_address = "0x4F7C163DE5185e90c361e4136600d27cA67BD90A";
 var abi = [
   {
     "anonymous": false,
@@ -220,6 +220,49 @@ var abi = [
       }
     ],
     "name": "StoreCreated",
+    "type": "event"
+  },
+  {
+    "anonymous": false,
+    "inputs": [
+      {
+        "indexed": true,
+        "internalType": "address",
+        "name": "seller",
+        "type": "address"
+      },
+      {
+        "indexed": false,
+        "internalType": "uint256",
+        "name": "_storeID",
+        "type": "uint256"
+      },
+      {
+        "indexed": false,
+        "internalType": "string",
+        "name": "_name",
+        "type": "string"
+      },
+      {
+        "indexed": false,
+        "internalType": "string",
+        "name": "_description",
+        "type": "string"
+      },
+      {
+        "indexed": false,
+        "internalType": "string",
+        "name": "_website",
+        "type": "string"
+      },
+      {
+        "indexed": false,
+        "internalType": "string",
+        "name": "_email",
+        "type": "string"
+      }
+    ],
+    "name": "StoreUpdated",
     "type": "event"
   },
   {
@@ -838,6 +881,11 @@ var abi = [
         "internalType": "uint256",
         "name": "storeID",
         "type": "uint256"
+      },
+      {
+        "internalType": "uint256",
+        "name": "orderID",
+        "type": "uint256"
       }
     ],
     "stateMutability": "view",
@@ -1040,6 +1088,44 @@ var abi = [
       }
     ],
     "name": "editProduct",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "uint256",
+        "name": "_index",
+        "type": "uint256"
+      },
+      {
+        "internalType": "uint256",
+        "name": "_storeID",
+        "type": "uint256"
+      },
+      {
+        "internalType": "string",
+        "name": "_name",
+        "type": "string"
+      },
+      {
+        "internalType": "string",
+        "name": "_description",
+        "type": "string"
+      },
+      {
+        "internalType": "string",
+        "name": "_website",
+        "type": "string"
+      },
+      {
+        "internalType": "string",
+        "name": "_email",
+        "type": "string"
+      }
+    ],
+    "name": "editStore",
     "outputs": [],
     "stateMutability": "nonpayable",
     "type": "function"

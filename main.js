@@ -50,7 +50,7 @@ $(document).ready(function() {
                     contractInstance.methods.storesMapping(e.target.id).call()
                         .then(function(result) {
                         $('#storefront-header').text(result[0]);
-                        $('#storefront-description').text(result[3]);
+                        $('#storefront-description').html(result[3]);
                         $('#storefront-website').text(result[4]);
                         $('#storefront-email').text(result[5]);
                         $('#seller-address').text(result[1]);

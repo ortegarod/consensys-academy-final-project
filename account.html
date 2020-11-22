@@ -26,10 +26,13 @@
             <div>Email Address: <span id="email-address"></span></div>
             <div id="sign-up">
                 <br>
+                <form name="register-email-form">
                 <label for="email-input">Email Address:</label>
                 <input type="text" id="email-input" name="email-input">
-                <button type="button" id="register-email-button">REGISTER</button><br>
-                You must register your account before you can buy items. Your email will be linked to your public Ethereum address. It is free to register an account (Ethereum gas fees still apply). <p>Seller will contact you at the provided email after payment to request a shipping address. See the "FAQs" section for more information.</p>
+                <button type="button" id="register-email-button">REGISTER</button><p></p>
+                You must register your account before you can buy items. Your email will be linked to your public Ethereum address. It is free to register an account (Ethereum gas fees still apply). <p></p>
+                <input type="checkbox" required name="terms"> I understand that I am registering for the <u>United States</u> Ether-Mart Online Marketplace and that merchants on this website can only ship to addresses in the United States (excluding HI & AK). <p></p>When you submit an order, the seller will contact you at your registered email to request a shipping address. Please see the "FAQs" section for more information about the ordering process. 
+                </form>    
             </div>
             <hr>
             <button type="button" id="show-add-store-form">ADD STORE ►</button><br>
@@ -37,7 +40,7 @@
             <label for="storeName"><h3>ADD STORE FOR ONLY 0.005 ETH</h3>Store Name:</label>
             <input type="text" id="storeName" name="storeName"><br>
             <label for="store-description">Description:</label>
-            <input type="text" id="store-description" name="store-description"><br>
+            <textarea id="store-description" name="store-description" rows="4" cols="50"></textarea><br>
             <label for="store-website">Website:</label>
             <input type="text" id="store-website" name="store-website"><br>
             <label for="store-email">Contact Email:</label>
@@ -46,29 +49,58 @@
             </div>
             <hr>
             <label for="storeName"><h2>MY STORES:</h2><p>Click on a store to view or add products</p></label>
-            <ul id="store-menu">
-            </ul>
+            <ol id="store-menu">
+            </ol>
+
+            <div id = "my-store-detail" style=display:none;>
+                <span id="hidden-store-name"></span><p>
+                <span id="hidden-store-description"></span><p>
+                <span id="hidden-store-website"></span><p>
+                <span id="hidden-store-email"></span><p>
+            </div>
+
+                <h1><span id="store-selection"></span></h1><p>
+                <button type="button" class="edit-store-button" id="edit-store-button" style=display:none;><span id="edit-store-button-name">EDIT STORE ►</span></button>
+
+            <div id="edit-store-form" style=display:none;>
+                <label for="ustore-name-label">Name:</label>
+                <input id="ustore-name-label"></input><p>
+                <label for="ustore-description-label">Description:</label>
+                <textarea id="ustore-description-label" rows="4" cols="50"></textarea><p>
+                <label for="ustore-website-label">Website:</label>
+                <input id="ustore-website-label"></input><p>
+                <label for="ustore-email-label">Email:</label>
+                <input id="ustore-email-label"></input><p>
+                <button type="button" id="update-store-button"><span id="update-store-button-name">SUBMIT</span></button>
+                <p></p>
+            </div>
+
 
             <div id="my-products-menu-id" style=display:none>
-                <button type="button" id="show-add-product"><span id="show-add-product-name">ADD PRODUCT ►</span></button><p></p>
-                <div id="add-product-form" style=display:none;>
-                    <label for="store-name">Store:</label>
-                    <span id="store-name"></span><p>
-                    <label for="product-name">Product Name:</label>
-                    <input type="text" id="product-name" name="product-name"><p>
-                    <label for="product-description">Product Description:</label>
-                    <input type="text" id="product-description" name="product-name"><p>
-                    <label for="product-price">Price (ETH):</label>
-                    <input type="text" id="product-price" name="product-price"><p>
-                    <label for="product-SKU">SKU:</label>
-                    <input type="text" id="product-SKU" name="product-SKU"><p>
-                    <label for="product-quantity">Quantity Available:</label>
-                    <input type="text" id="product-quantity" name="product-quantity"><p></p>
-                    <!-- <label for="product-storeID">Store ID:</label>
-                    <input type="text" id="product-storeID" name="product-storeID"><br><br> -->
-                    <button type="button" class="add-product" id="add-product">SUBMIT (COST: 0.001 ETH)</button>
-                </div>
-            <label for="my-products-menu"><h2>PRODUCTS LISTED:</h2><p>Click on a product to view details</p></label>
+
+            <label for="my-products-menu"><h2>PRODUCTS LISTED:</h2></label>
+            <button type="button" id="show-add-product"><span id="show-add-product-name">ADD PRODUCT ►</span></button><p></p>
+
+            <div id="add-product-form" style=display:none;>
+                <label for="store-name">Store:</label>
+                <span id="store-name"></span><p>
+                <label for="product-name">Product Name:</label>
+                <input type="text" id="product-name" name="product-name"><p>
+                <label for="product-description">Product Description:</label>
+                <input type="text" id="product-description" name="product-name"><p>
+                <label for="product-price">Price (ETH):</label>
+                <input type="text" id="product-price" name="product-price"><p>
+                <label for="product-SKU">SKU:</label>
+                <input type="text" id="product-SKU" name="product-SKU"><p>
+                <label for="product-quantity">Quantity Available:</label>
+                <input type="text" id="product-quantity" name="product-quantity"><p></p>
+                <!-- <label for="product-storeID">Store ID:</label>
+                <input type="text" id="product-storeID" name="product-storeID"><br><br> -->
+                <button type="button" class="add-product" id="add-product">SUBMIT (COST: 0.001 ETH)</button>
+            </div>
+
+            <span><p></p>Click on a product to view details:</span><p>
+
             <ol id="my-products-menu">
             </ol>
             </div>
@@ -87,6 +119,8 @@
                 <p></p>
             <button type="button" class="edit-product-button" id="edit-product-button"><span id="edit-product-button-name">EDIT PRODUCT ►</span></button>
             <p></p>
+
+
 
             <div id="edit-product-form" style=display:none;>
                 <label for="uproduct-name-label">Name:</label>

@@ -9,6 +9,7 @@ import "@openzeppelin/contracts/access/Ownable.sol";
 contract OnlineMarketplace is Ownable {
     
     event StoreCreated(string newStoreName, address owner, uint storeID);
+    event StoreUpdated(address indexed seller, uint _storeID, string _name, string _description, string _website, string _email);
     event ProductCreated(string newProductName, uint price, uint SKU, uint quantity, uint uniqueID, address seller, uint storeID);
     event ProductUpdated(string newProductName, uint price, uint SKU, uint quantity, uint uniqueID, address seller, uint storeID);
     event ProductSold(uint orderID, uint indexed productID, address indexed buyer, address indexed seller, uint price, string email);
@@ -225,6 +226,21 @@ contract OnlineMarketplace is Ownable {
 
         emit ProductUpdated(_name, _price, _SKU, _quantity, _uniqueID, msg.sender, _storeID);
     }
+
+    function editStore(uint _index, uint _storeID, string calldata _name, string calldata _description, string calldata _website, string calldata _email) external requireIsActive {     
+        require(storesMapping[_storeID].owner == msg.sender);
+        stores[msg.sender][_index].name = _name;
+        stores[msg.sender][_index].description = _description;
+        stores[msg.sender][_index].website = _website;
+        stores[msg.sender][_index].email = _email;
+
+        storesMapping[_storeID].name = _name;
+        storesMapping[_storeID].description = _description;
+        storesMapping[_storeID].website = _website;
+        storesMapping[_storeID].email = _email;
+
+        emit StoreUpdated(msg.sender, _storeID, _name, _description, _website, _email);
+    }
     
 /// @notice function executed when purchasing a product 
 /// @dev called externally, checks for the product price to be equal to tx value sent and that product is in stock, then sets "sold" property to true and sends value to seller
@@ -232,6 +248,7 @@ contract OnlineMarketplace is Ownable {
     function buyItem(uint _productID) external payable requireIsActive {
         require (msg.value == productsMapping[_productID].price);
         require (productsMapping[_productID].quantity > 0);
+        require (bytes(emails[msg.sender]).length > 0, "You need to register an email address before purchasing an item.");
         productsMapping[_productID].seller.transfer(msg.value);
         productsMapping[_productID].quantity -= 1;
         uint orderID = getID();

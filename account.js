@@ -2,6 +2,7 @@ var web3 = new Web3(Web3.givenProvider);
 var contractInstance;
 var len;
 var store_index;
+var store_id;
 var product_index;
 var product_id;
 
@@ -30,6 +31,11 @@ $(document).ready(function() {
                 $("#register-email-button").click(register);
                 $("#email-address").text("n/a");
                 function register() {
+                    if(!document.forms['register-email-form'].terms.checked) {
+                        alert("Please check the box indicating that you accept the Terms and Conditions");
+                        document.forms['register-email-form'].terms.focus();
+                        return false;
+                      }
                     var email = $("#email-input").val();
                     contractInstance.methods.register(email).send()
                     .on("receipt", function(receipt){ 
@@ -62,9 +68,13 @@ $(document).ready(function() {
             // e.target is our targetted element
             // try doing console.log(e.target.nodeName), it will result LI
             if(e.target && e.target.nodeName == "LI") {
-                    console.log(e.target.id + " was clicked");
                     store_index = e.target.id;
+                    store_id = e.target.value;
                     $('#my-products-menu').empty();
+                    document.getElementById("edit-store-form").style.display="none";
+                    var y = document.getElementById("edit-store-button-name");
+                    y.innerHTML = "EDIT STORE ►";
+                    document.getElementById("edit-store-button").style.display = "block";
                     var a = document.getElementById("my-products-menu-id");
                     a.style.display = "block";
                     // var b = document.getElementById("add-product-form");
@@ -75,6 +85,12 @@ $(document).ready(function() {
                     contractInstance.methods.storesMapping(e.target.id).call()
                     .then(function(result){
                     $("#store-name").text(result[0])
+                    $("#store-selection").text(result[0]);
+                    $("#hidden-store-name").text(result[0]);
+                    $("#hidden-store-description").text(result[3]);
+                    $("#hidden-store-website").text(result[4]);
+                    $("#hidden-store-email").text(result[5]);
+
                     })
                     contractInstance.methods.getProductsMALength(e.target.id).call()
                     .then(function(result) {
@@ -157,6 +173,7 @@ $(document).ready(function() {
                                 $("#product-price-label").text(web3.utils.fromWei(result[2], 'ether'));
                                 $("#product-SKU-label").text(result[3]);
                                 $("#product-quantity-label").text(result[4]);
+
                             })
             }
 
@@ -168,7 +185,10 @@ $(document).ready(function() {
         $("#show-add-store-form").click(openAddStoreForm)
         $("#show-add-product").click(openAddProductForm)
         $("#update-product-button").click(editItem)
+        $("#update-store-button").click(editStore)
         $("#edit-product-button").click(openEdit)
+        $("#edit-store-button").click(openEditStore)
+
 
         function openAddStoreForm () {
             var x = document.getElementById("add-store-form");
@@ -215,6 +235,24 @@ $(document).ready(function() {
               }
          }
 
+         function openEditStore () {
+            var x = document.getElementById("edit-store-form");
+            var y = document.getElementById("edit-store-button-name");
+           
+            if (x.style.display === "none") {
+                x.style.display = "block";
+                y.innerHTML = "EDIT STORE ▼";
+                document.getElementById("ustore-name-label").value = document.getElementById("hidden-store-name").innerHTML;
+                document.getElementById("ustore-description-label").value = document.getElementById("hidden-store-description").innerHTML;
+                document.getElementById("ustore-website-label").value = document.getElementById("hidden-store-website").innerHTML;
+                document.getElementById("ustore-email-label").value = document.getElementById("hidden-store-email").innerHTML;
+
+              } else {
+                x.style.display = "none";
+                y.innerHTML = "EDIT STORE ►";
+              }
+         }
+
         function editItem() {
             contractInstance.methods.editProduct(product_index, document.getElementById("uproduct-name-label").value, document.getElementById("uproduct-description-label").value, web3.utils.toWei(document.getElementById("uproduct-price-label").value), document.getElementById("uproduct-SKU-label").value, document.getElementById("uproduct-quantity-label").value, store_index, product_id).send()
             .on("receipt", function() {
@@ -228,6 +266,20 @@ $(document).ready(function() {
                     $("#product-quantity-label").text(result[4]);
                 })
             })
+        }
+
+        function editStore() {
+            contractInstance.methods.editStore(store_id, store_index, document.getElementById("ustore-name-label").value, document.getElementById("ustore-description-label").value, document.getElementById("ustore-website-label").value, document.getElementById("ustore-email-label").value).send()
+            // .on("receipt", function() {
+            //     contractInstance.methods.storesMapping(store_index).call()
+            //     .then(function(result) {
+            //         console.log(result);
+            //         $("#ustore-name-label").text(result[0]);
+            //         $("#ustore-description-label").text(result[3]);
+            //         $("#ustore-website-label").text(result[4]);
+            //         $("#ustore-email-label").text(result[5]);
+            //     })
+            // })
         }
                     contractInstance.getPastEvents('ProductSold', {filter: {seller: [accounts[0]]}, fromBlock: 0, toBlock: 'latest'}, function (error, events) {
                         for (i = 0; i < events.length; i++) {

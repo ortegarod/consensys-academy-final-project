@@ -20,6 +20,21 @@ h1, h2, h3 {
 #content-wrap {
     padding-bottom: 2.5rem;    /* Footer height */
 }
+
+#storefront-description {
+    display: block;
+    white-space: pre-wrap;
+    width: auto;
+    height: auto;
+}
+
+#store-description {
+    display: block;
+}
+
+#ustore-description-label {
+    display: block;
+}
   
 #footer {
     position: absolute;

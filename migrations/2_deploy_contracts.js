@@ -20,6 +20,7 @@ module.exports = function (deployer, network, accounts) {
     instance.newProduct("Mop", "A regular mop. Comes with one disposable mophead.", web3.utils.toWei('0.094', 'ether'), 621451227030, 9, 5);
     instance.newProduct("Vegetable Oil", "100 oz. economy vegatable cooking oil.", web3.utils.toWei('0.028', 'ether'), 338001778694, 65, 5);
     instance.newProduct("Flamethrower", "Elon Musk's flamethrower. Used (fair condition). Sold as-is. Email for pictures.", web3.utils.toWei('1.555', 'ether'), 389814568549, 38, 6);
+    instance.register("email@email.com");
 
   })
 };

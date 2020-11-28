@@ -1,4 +1,4 @@
-var deployment_address = "0x4F7C163DE5185e90c361e4136600d27cA67BD90A";
+var deployment_address = "0x35710d926e75Ad6c4579881194B7d8F591d7c2e8";
 var abi = [
   {
     "anonymous": false,
@@ -756,7 +756,7 @@ var abi = [
   },
   {
     "inputs": [],
-    "name": "arrayLength",
+    "name": "getArrayLength",
     "outputs": [
       {
         "internalType": "uint256",

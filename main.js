@@ -13,15 +13,12 @@ $(document).ready(function() {
         web3.eth.getBalance(accounts[0]).then(function(result){
             $("#connected-account-ether-balance").text(web3.utils.fromWei(result) + " ETH");
         })
-        contractInstance.methods.arrayLength().call()
+        contractInstance.methods.getArrayLength().call()
         .then(function(result) {
-            console.log(result);
             length = result;
             for (i = 0; i < length; i++) {
                 contractInstance.methods.storesArray(i).call()
                 .then(function(result){
-                    console.log(result);
-                    console.log(result[0]);
                     var input = result[0];
                     var list = document.getElementById("menu");
                     var item = document.createElement("li");
@@ -36,7 +33,6 @@ $(document).ready(function() {
             // e.target is our targetted element
             // try doing console.log(e.target.nodeName), it will result LI
             if(e.target && e.target.nodeName == "LI") {
-                    console.log(e.target.id + " was clicked");
                     var a = document.getElementById("product-menu-id");
                     a.style.display = "block";
                     var b = document.getElementById("back-to-directory");
@@ -81,7 +77,6 @@ $(document).ready(function() {
             // e.target is our targetted element
             // try doing console.log(e.target.nodeName), it will result LI
             if(e.target && e.target.nodeName == "LI") {
-                    console.log(e.target.id + " was clicked");
                     $('#product-detail-menu').empty();
                     var a = document.getElementById("product-detail-id");
                     a.style.display = "block";
@@ -89,10 +84,6 @@ $(document).ready(function() {
                     b.style.display = "none";
                     var c = document.getElementById("out-of-stock");
                     c.style.display = "none";
-                    // var c = document.getElementById("product-menu-id");
-                    // c.style.display = "none";
-                    // var d = document.getElementById("back-to-product-menu");
-                    // d.style.display = "block";
                             contractInstance.methods.productsMapping(e.target.id).call()
                             .then(function(result) {
                                 console.log(result);
@@ -112,7 +103,22 @@ $(document).ready(function() {
 
 
                             })
-
+                            contractInstance.methods.getEmail(accounts[0]).call()
+                            .then(function(result) {
+                                if(result[0] == "") {
+                                    console.log(result[0]);
+                                    console.log("result[0]");
+                                    var b = document.getElementById("buy-button");
+                                    b.style.display = "none";
+                                    var b = document.getElementById("email-not-registered");
+                                    b.style.display = "block";
+                                } else {
+                                    var b = document.getElementById("buy-button");
+                                    b.style.display = "block";
+                                    var b = document.getElementById("email-not-registered");
+                                    b.style.display = "none";
+                                }
+                            })
             }
 
 
@@ -131,8 +137,6 @@ $(document).ready(function() {
                 console.log(receipt);
                 var d = document.getElementById("buy-confirmation");
                 d.style.display = "block";
-                $("#confirmation-details").text("Your order has been sent! Check your order status on your account page.");
-
                 contractInstance.methods.productsMapping(target).call()
                 .then(function(result) {
                     console.log(result);
@@ -157,8 +161,6 @@ function refresh () {
 }
 
 function back () {
-    // var a = document.getElementById("product-detail-id");
-    // a.style.display = "block";
     var b = document.getElementById("product-detail-id");
     b.style.display = "none";
     var c = document.getElementById("product-menu-id");

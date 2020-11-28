@@ -1,4 +1,4 @@
-// SPDX-License-Identifier: UNLICENSED
+// SPDX-License-Identifier: GPL-3.0-or-later
 pragma solidity 0.6.0;
 
 import "@openzeppelin/contracts/access/Ownable.sol";
@@ -89,7 +89,7 @@ contract OnlineMarketplace is Ownable {
 /// @notice getter function for array length of Stores array
 /// @dev called externally, used for displaying list of all stores in front-end
 /// @return length of Stores array
-    function arrayLength() external view returns (uint length) {
+    function getArrayLength() external view returns (uint length) {
         return storesArray.length;
     }
 
@@ -98,6 +98,7 @@ contract OnlineMarketplace is Ownable {
 /// @return length of Stores array in mapping (address key)
     function getStoresMALength() external view returns (uint) {
         return stores[msg.sender].length;
+
     }
 
 /// @notice getter function for array length of Products array in mapping (store ID key)
@@ -210,6 +211,16 @@ contract OnlineMarketplace is Ownable {
         productsMapping[_uniqueID] = c;
     }
 
+/// @notice function for editing an existing product
+/// @dev built-in circuit breaker; called externally, used for editing an existing, listed Product
+/// @param _index The product's index # in the products array
+/// @param _name The product's name
+/// @param _description The product's description
+/// @param _price The product's price
+/// @param _SKU The product's SKU
+/// @param _quantity The product's quantity
+/// @param _storeID The unique ID of the product's associated store
+/// @param _uniqueID The product's unique ID
     function editProduct(uint _index, string calldata _name, string calldata _description, uint _price, uint _SKU, uint _quantity, uint _storeID, uint _uniqueID) external requireIsActive {
 
         products[_storeID][_index].name = _name;
@@ -227,6 +238,14 @@ contract OnlineMarketplace is Ownable {
         emit ProductUpdated(_name, _price, _SKU, _quantity, _uniqueID, msg.sender, _storeID);
     }
 
+/// @notice function for editing an existing store
+/// @dev built-in circuit breaker; called externally, used for editing an existing, listed store
+/// @param _index The store's index # in the stores array
+/// @param _storeID The unique ID of the store
+/// @param _name The store's name
+/// @param _description The store's description
+/// @param _website The store's website
+/// @param _email The store's email
     function editStore(uint _index, uint _storeID, string calldata _name, string calldata _description, string calldata _website, string calldata _email) external requireIsActive {     
         require(storesMapping[_storeID].owner == msg.sender);
         stores[msg.sender][_index].name = _name;

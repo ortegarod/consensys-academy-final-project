@@ -4,6 +4,13 @@ const TruffleAssert = require("truffle-assertions");
 
 contract("OnlineMarketplace", async accounts => {
 
+    it("should return the registered email of the sender", async () => {
+        let instance = await OnlineMarketplace.deployed();
+        let result = await instance.getEmail(accounts[0]);
+        assert(result[0] === "email@email.com", "email not set");
+
+    })
+
     it("should not allow non-owner to withdraw", async () => {
         let instance = await OnlineMarketplace.deployed();
         await TruffleAssert.fails(instance.withdrawAll({from: accounts[1]}));
@@ -45,6 +52,11 @@ contract("OnlineMarketplace", async accounts => {
     it("should not allow owner to withdraw due to circuit breaker", async () => {
         let instance = await OnlineMarketplace.deployed();
         await TruffleAssert.fails(instance.withdrawAll({from: accounts[0]}));
+    })
+
+    it("should not allow non-owner to toggle circuit breaker", async () => {
+        let instance = await OnlineMarketplace.deployed();
+        await TruffleAssert.fails(instance.toggleCircuitBreaker({from: accounts[1]}));
     })
 
 })

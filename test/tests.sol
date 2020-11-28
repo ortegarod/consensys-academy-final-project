@@ -14,8 +14,8 @@ contract TestOnlineMarketPlace {
 
 OnlineMarketplace onlinemarketplace = OnlineMarketplace(DeployedAddresses.OnlineMarketplace());
 
-    function testArrayLength() public {
-        uint returnedLength = onlinemarketplace.arrayLength();
+    function testGetArrayLength() public {
+        uint returnedLength = onlinemarketplace.getArrayLength();
         Assert.equal(returnedLength, 6, "Length of array should be 6");
     }
 
@@ -30,7 +30,7 @@ OnlineMarketplace onlinemarketplace = OnlineMarketplace(DeployedAddresses.Online
         Assert.equal(result, 2, "Number of products in mapping for this storeID should be 2");
     }
 
-    function testGetProduct() public {
+    function testGetProductA() public {
         string memory name; 
         string memory description;
         uint price;
@@ -42,6 +42,20 @@ OnlineMarketplace onlinemarketplace = OnlineMarketplace(DeployedAddresses.Online
 
         (name, description, price, SKU, quantity, uniqueID) = onlinemarketplace.getProductA(_uniqueID);
         Assert.equal(name, "Orange Juice", "Name of product at mapping value=7 (unique id=7) should be: Orange Juice");
+    }
+
+    function testGetProductB() public {
+        bool shipped;
+        uint trackingNumber;
+        address buyer;
+        address seller;
+        uint storeID;
+        uint orderID;
+
+        uint _uniqueID = 7;
+
+        (shipped, trackingNumber, buyer, seller, storeID, orderID) = onlinemarketplace.getProductB(_uniqueID);
+        Assert.equal(storeID, 1, "Store ID of product at mapping value=7 (unique id=7) should be: 1");
     }
 
     function testNewStore() public {
@@ -73,6 +87,11 @@ OnlineMarketplace onlinemarketplace = OnlineMarketplace(DeployedAddresses.Online
     function testGetBalance() public {
         uint result = onlinemarketplace.getBalance();
         Assert.equal(result, .035 ether, "contract balance should be 0.035 ether");
+    }
+
+    function testGetStoresGetMALength() public {
+        uint result = onlinemarketplace.getStoresMALength();
+        Assert.equal(result, 1, "stores array length for msg.sender (this contract) should be 1");
     }
 }
 

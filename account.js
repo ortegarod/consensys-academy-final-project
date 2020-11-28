@@ -16,14 +16,16 @@ $(document).ready(function() {
         contractInstance = new web3.eth.Contract(abi, deployment_address, {from: accounts[0]});
         console.log(contractInstance);
         web3.eth.getBalance(accounts[0]).then(function(result){
+            console.log(result);
+
             $("#connected-account-ether-balance").text(web3.utils.fromWei(result) + " ETH");
         })
         var account = web3.currentProvider.selectedAddress
         $("#ether_wallet").text(account);
         contractInstance.methods.getEmail(accounts[0]).call()
         .then(function (result) {
+            console.log(result);
             if (result[0] != "") {
-                console.log(result);
                 $("#email-address").text(result[0]);
                 var a = document.getElementById("sign-up");
                 a.style.display = "none";
@@ -50,10 +52,12 @@ $(document).ready(function() {
 
         contractInstance.methods.getStoresMALength().call()
         .then(function(result) {
+            console.log(result);
             length = result;
             for (i = 0; i < length; i++) {
                 contractInstance.methods.stores(accounts[0],i).call()
                 .then(function(result){
+                    console.log(result);
                     var input = result[0];
                     var list = document.getElementById("store-menu");
                     var item = document.createElement("li");
@@ -84,6 +88,7 @@ $(document).ready(function() {
                     $("#add-product").click(addProduct)
                     contractInstance.methods.storesMapping(e.target.id).call()
                     .then(function(result){
+                    console.log(result);
                     $("#store-name").text(result[0])
                     $("#store-selection").text(result[0]);
                     $("#hidden-store-name").text(result[0]);
@@ -94,10 +99,13 @@ $(document).ready(function() {
                     })
                     contractInstance.methods.getProductsMALength(e.target.id).call()
                     .then(function(result) {
+                        console.log(result);
                         length = result;
                         for (i = 0; i < length; i++) {
                             contractInstance.methods.products(e.target.id,i).call()
                             .then(function(result){
+                                console.log(result);
+
                                 var input = result[0];
                                 var list = document.getElementById("my-products-menu");
                                 var item = document.createElement("li");
@@ -130,12 +138,14 @@ $(document).ready(function() {
                                         $("#product-quantity").val("");
                                         contractInstance.methods.getProductsMALength(e.target.id).call()
                                         .then(function(result) {
+                                            console.log(result);
+
                                             length = result;
                                             for (i = 0; i < length; i++) {
                                                 contractInstance.methods.products(e.target.id,i).call()
                                                 .then(function(result){
                                                     console.log(result);
-                                                    console.log(result[5]);
+
                                                     var input = result[0];
                                                     var list = document.getElementById("my-products-menu");
                                                     var item = document.createElement("li");
@@ -153,7 +163,6 @@ $(document).ready(function() {
             // e.target is our targetted element
             // try doing console.log(e.target.nodeName), it will result LI
             if(e.target && e.target.nodeName == "LI") {
-                    console.log(e.target.id + " was clicked");
                     product_id = e.target.id;
                     product_index = e.target.value;
                     document.getElementById("edit-product-form").style.display="none";
@@ -168,6 +177,7 @@ $(document).ready(function() {
                             contractInstance.methods.productsMapping(e.target.id).call()
                             .then(function(result) {
                                 console.log(result);
+
                                 $("#product-name-label").text(result[0]);
                                 $("#product-description-label").text(result[1]);
                                 $("#product-price-label").text(web3.utils.fromWei(result[2], 'ether'));
@@ -259,6 +269,7 @@ $(document).ready(function() {
                 contractInstance.methods.productsMapping(product_id).call()
                 .then(function(result) {
                     console.log(result);
+
                     $("#product-name-label").text(result[0]);
                     $("#product-description-label").text(result[1]);
                     $("#product-price-label").text(web3.utils.fromWei(result[2], 'ether'));
@@ -342,6 +353,7 @@ $(document).ready(function() {
                             var d8 = document.createElement("LABEL");
                             d8.innerHTML="TX Hash: ";
                             var e9 = document.createElement("br");
+                            
                             a.appendChild(h);
  
                             h.appendChild(d);      
@@ -374,20 +386,15 @@ $(document).ready(function() {
                             h.appendChild(d6);  
                             h.appendChild(c6); 
 
-  
-
- 
-
                             h.appendChild(e2); 
                             h.appendChild(b);  
                             h.appendChild(f);
                             h.appendChild(e);
 
-
-
                             contractInstance.methods.orders(events[i].returnValues[0], events[i].returnValues[1]).call()
                             .then(function(result) {
                                 console.log(result);
+
                                 var b = document.getElementById("nodata");
 
                                 var a = document.createElement("span");
@@ -433,11 +440,8 @@ $(document).ready(function() {
 
                             document.getElementById("new-orders").addEventListener("click",function(e) {
                                 if(e.target && e.target.nodeName == "BUTTON") {
-                                console.log(e.target.nodeName);
-                            console.log(e.target.value);
                             var y = e.target.value;
                             var x = document.getElementById("tracking-input" + y).value;
-                            console.log(x);
   
                             contractInstance.methods.itemShipped(e.target.value, e.target.id, x).send()
                             .on("receipt", function(receipt){ 
@@ -490,6 +494,8 @@ $(document).ready(function() {
 
                             contractInstance.methods.orders(order_id, purchased_item_id).call()
                             .then(function(result) {
+                                console.log(result);
+
                                 var table = document.getElementById("order-history");
 
                                 var hash_label = document.createElement("LABEL");
@@ -545,7 +551,6 @@ function addStore () {
     var email = $("#store-email").val();
 
     contractInstance.once('StoreCreated', {}, (function(error, event){
-        console.log(event.returnValues['newStoreName']);
         $("#menu").append(event.returnValues['newStoreName']);
         $("#new_store").add(event.returnValues['newStoreName']);
     }))

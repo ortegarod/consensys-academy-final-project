@@ -1,4 +1,10 @@
-var deployment_address = "0x35710d926e75Ad6c4579881194B7d8F591d7c2e8";
+// Rinkeby:
+// var deployment_address = "0x79787690F3a38D35De9b78822C249718DAf2b59b";
+
+// Ganache-CLI:
+var deployment_address = "0x3868c1F3A41b1edf68a669e137e25D7D7Ddd4D7B";
+
+// Contract ABI:
 var abi = [
   {
     "anonymous": false,

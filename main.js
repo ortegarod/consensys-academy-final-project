@@ -6,19 +6,25 @@ var target;
 $(document).ready(function() {
     window.ethereum.enable().then(function(accounts){
         window.ethereum.on('accountsChanged', function (accounts) {
-                    window.location.reload();
+            window.location.reload();
           })
         contractInstance = new web3.eth.Contract(abi, deployment_address, {from: accounts[0]});
         console.log(contractInstance);
         web3.eth.getBalance(accounts[0]).then(function(result){
+            console.log(result);
+
             $("#connected-account-ether-balance").text(web3.utils.fromWei(result) + " ETH");
         })
         contractInstance.methods.getArrayLength().call()
         .then(function(result) {
+            console.log(result);
+
             length = result;
             for (i = 0; i < length; i++) {
                 contractInstance.methods.storesArray(i).call()
                 .then(function(result){
+                    console.log(result);
+
                     var input = result[0];
                     var list = document.getElementById("menu");
                     var item = document.createElement("li");
@@ -45,6 +51,8 @@ $(document).ready(function() {
                     d.style.display = "block";
                     contractInstance.methods.storesMapping(e.target.id).call()
                         .then(function(result) {
+                        console.log(result);
+
                         $('#storefront-header').text(result[0]);
                         $('#storefront-description').html(result[3]);
                         $('#storefront-website').text(result[4]);
@@ -54,11 +62,14 @@ $(document).ready(function() {
                     })
                     contractInstance.methods.getProductsMALength(e.target.id).call()
                     .then(function(result) {
+                        console.log(result);
+
                         length = result;
                         for (i = 0; i < length; i++) {
                             contractInstance.methods.products(e.target.id,i).call()
                             .then(function(result) {
                                 console.log(result);
+
                                 var index = 0;
                                 var input = result[0];
                                 var list = document.getElementById("product-menu");
@@ -87,6 +98,7 @@ $(document).ready(function() {
                             contractInstance.methods.productsMapping(e.target.id).call()
                             .then(function(result) {
                                 console.log(result);
+
                                 if (result[4] == 0) {
                                     c.style.display = "block";
                                     b.style.display = "none";
@@ -101,33 +113,25 @@ $(document).ready(function() {
                                 config = { value: web3.utils.toWei(price) }
                                 $("#product-quantity-label").text(result[4]);
 
+                                contractInstance.methods.getEmail(accounts[0]).call()
+                                .then(function(result) {
+                                    console.log(result);
 
-                            })
-                            contractInstance.methods.getEmail(accounts[0]).call()
-                            .then(function(result) {
-                                if(result[0] == "") {
-                                    console.log(result[0]);
-                                    console.log("result[0]");
-                                    var b = document.getElementById("buy-button");
-                                    b.style.display = "none";
-                                    var b = document.getElementById("email-not-registered");
-                                    b.style.display = "block";
-                                } else {
-                                    var b = document.getElementById("buy-button");
-                                    b.style.display = "block";
-                                    var b = document.getElementById("email-not-registered");
-                                    b.style.display = "none";
-                                }
+                                    if(result[0] == "") {
+                                        var b = document.getElementById("buy-button");
+                                        b.style.display = "none";
+                                        var b = document.getElementById("email-not-registered");
+                                        b.style.display = "block";
+                                    } else {
+                                        var b = document.getElementById("buy-button");
+                                        b.style.display = "block";
+                                        var b = document.getElementById("email-not-registered");
+                                        b.style.display = "none";
+                                    }
+                                })
                             })
             }
-
-
-
-
-
-
         });
-
 
         $("#buy-button").click(buyItem)
 
@@ -140,6 +144,7 @@ $(document).ready(function() {
                 contractInstance.methods.productsMapping(target).call()
                 .then(function(result) {
                     console.log(result);
+
                     $("#product-quantity-label").text(result[4]);
                 })
             }) 
@@ -147,9 +152,6 @@ $(document).ready(function() {
                 $("#tx-confirmation").text(hash);
             })
         }
-
-
-
     })
 
     $("#back-to-product-menu").click(back)

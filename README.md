@@ -58,7 +58,7 @@ python3 -m http.server
 
 Explain your project... what does your project do?
 
-<a href="https://rinkeby.etherscan.io/address/CONTRACT_ADDRESS">Contract Address (Rinkeby Testnet): CONTRACT_ADDRESS
+<a href="https://rinkeby.etherscan.io/address/0x79787690F3a38D35De9b78822C249718DAf2b59b">Contract Address (Rinkeby Testnet): 0x79787690F3a38D35De9b78822C249718DAf2b59b
 </a> 
 
 <!-- LICENSE -->

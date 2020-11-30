@@ -287,6 +287,10 @@ $(document).ready(function() {
 
         function editStore() {
             contractInstance.methods.editStore(store_id, store_index, document.getElementById("ustore-name-label").value, document.getElementById("ustore-description-label").value, document.getElementById("ustore-website-label").value, document.getElementById("ustore-email-label").value).send()
+            .on("receipt",function() {
+                location.reload();
+
+            })
             // .on("receipt", function() {
             //     contractInstance.methods.storesMapping(store_index).call()
             //     .then(function(result) {

@@ -67,6 +67,7 @@ $(document).ready(function() {
                 })
             } 
         })
+        var storeID_addproduct;
 
         document.getElementById("store-menu").addEventListener("click",function(e) {
             // e.target is our targetted element
@@ -74,6 +75,7 @@ $(document).ready(function() {
             if(e.target && e.target.nodeName == "LI") {
                     store_index = e.target.id;
                     store_id = e.target.value;
+                    storeID_addproduct = e.target.id;
                     $('#my-products-menu').empty();
                     document.getElementById("edit-store-form").style.display="none";
                     var y = document.getElementById("edit-store-button-name");
@@ -85,7 +87,6 @@ $(document).ready(function() {
                     // b.style.display = "block";
                     var c = document.getElementById("my-products-detail-menu-id");
                     c.style.display = "none";
-                    $("#add-product").click(addProduct)
                     contractInstance.methods.storesMapping(e.target.id).call()
                     .then(function(result){
                     console.log(result);
@@ -117,47 +118,52 @@ $(document).ready(function() {
                         } 
                     })
             }
-                                function addProduct () {
-                                    var name = $("#product-name").val();
-                                    var description = $("#product-description").val();
-                                    var price = $("#product-price").val();
-                                    var SKU = $("#product-SKU").val();
-                                    var quantity = $("#product-quantity").val();
-                                    var storeID = e.target.id;
-                                    contractInstance.once('ProductCreated', {}, (function(error, event){
-                                        console.log(event);
-                                    }))
-                                    contractInstance.methods.newProduct(name, description, web3.utils.toWei(price), SKU, quantity, storeID).send()
-                                    .on("receipt", function(receipt){ 
-                                        console.log(receipt);
-                                        $('#my-products-menu').empty();
-                                        $("#product-name").val("");
-                                        $("#product-description").val("");
-                                        $("#product-price").val("");
-                                        $("#product-SKU").val("");
-                                        $("#product-quantity").val("");
-                                        contractInstance.methods.getProductsMALength(e.target.id).call()
-                                        .then(function(result) {
-                                            console.log(result);
 
-                                            length = result;
-                                            for (i = 0; i < length; i++) {
-                                                contractInstance.methods.products(e.target.id,i).call()
-                                                .then(function(result){
-                                                    console.log(result);
-
-                                                    var input = result[0];
-                                                    var list = document.getElementById("my-products-menu");
-                                                    var item = document.createElement("li");
-                                                    item.id = result[5];
-                                                    item.innerHTML = input;
-                                                    list.appendChild(item);
-                                                })
-                                            } 
-                                        })
-                                    }) 
-                                }
         });
+        $("#add-product").click(addProduct)
+
+        function addProduct () {
+            var name = $("#product-name").val();
+            var description = $("#product-description").val();
+            var price = $("#product-price").val();
+            var SKU = $("#product-SKU").val();
+            var quantity = $("#product-quantity").val();
+            contractInstance.once('ProductCreated', {}, (function(error, event){
+                console.log(event);
+            }))
+            var config = {
+                value: web3.utils.toWei(".001")
+            }
+            contractInstance.methods.newProduct(name, description, web3.utils.toWei(price), SKU, quantity, storeID_addproduct).send(config)
+            .on("receipt", function(receipt){ 
+                console.log(receipt);
+                $('#my-products-menu').empty();
+                $("#product-name").val("");
+                $("#product-description").val("");
+                $("#product-price").val("");
+                $("#product-SKU").val("");
+                $("#product-quantity").val("");
+                contractInstance.methods.getProductsMALength(storeID_addproduct).call()
+                .then(function(result) {
+                    console.log(result);
+
+                    length = result;
+                    for (i = 0; i < length; i++) {
+                        contractInstance.methods.products(storeID_addproduct,i).call()
+                        .then(function(result){
+                            console.log(result);
+
+                            var input = result[0];
+                            var list = document.getElementById("my-products-menu");
+                            var item = document.createElement("li");
+                            item.id = result[5];
+                            item.innerHTML = input;
+                            list.appendChild(item);
+                        })
+                    } 
+                })
+            }) 
+        }
 
         document.getElementById("my-products-menu").addEventListener("click",function(e) {
             // e.target is our targetted element

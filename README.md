@@ -15,7 +15,7 @@
 
 <!-- ABOUT THE PROJECT -->
 ## About The Project
- Ethereum dapp with web application user-interface and smart contract deployed on Rinkeby testnet.
+ An Ethereum Online Marketplace application with web user-interface and smart contract deployed on Rinkeby testnet.
  <p>
  <img src="" alt="Dapp Example Screenshot">
 
@@ -29,6 +29,8 @@
 <!-- GETTING STARTED -->
 ## Getting Started
 
+This project was made using Truffle and has a common file structure including a contracts folder, migrations folder, test folder and other main project files.
+
 To get a local copy up and running follow these simple steps.
 
 ### Prerequisites
@@ -38,33 +40,41 @@ To get a local copy up and running follow these simple steps.
 npm install npm@latest -g
 ```
 
+You may also need to install python3 for using 'python3 -m http.server'.
+
 ### Installation
 
 1. Clone the repo
 ```sh
-gh repo clone ortegarod/coin-flip-dapp
+gh repo clone ortegarod/consensys-academy-final-project
 ```
 2. Install NPM packages
 ```sh
 npm install
 ```
-3. run python local web server (localhost:8000)
+3. Run python local web server (localhost:8000)
 ```sh
 python3 -m http.server
 ```
+4. Open Firefox or Chrome (localhost:8000)
+
+
+*The project can also be deployed on a local test blockchain such as Ganache-CLI. To deploy to Ganache-CLI, run 'ganache-cli' and then use command 'truffle migrate --network development' and edit abi.js to update the deployed contract address. Open the browser and connect Metamask to Ganache-CLI.
 
 <!-- USAGE EXAMPLES -->
 ## Usage
 
-Explain your project... what does your project do?
+This project aims to replicate the experience of an online e-commerce marketplace by using only a smart contract on Ethereum acting as an intemediary between the buyer and seller. The UI is served using simple HTML/JavaScript web pages and web3 to make contract calls. 
 
-<a href="https://rinkeby.etherscan.io/address/0x79787690F3a38D35De9b78822C249718DAf2b59b">Contract Address (Rinkeby Testnet): 0x79787690F3a38D35De9b78822C249718DAf2b59b
+The user must have a web3 enabled web browser and Metamask installed (connect to Rinkeby testnet). The smart contract is deployed and functional on the Rinkeby testnet (Rinkeby testnet Ether required).
+
+<a href="https://rinkeby.etherscan.io/address/0x6487a3ce399561674976F933676c0ed40Ec5Bb19">Contract Address (Rinkeby Testnet): 0x6487a3ce399561674976F933676c0ed40Ec5Bb19
 </a> 
 
 <!-- LICENSE -->
 ## License
 
-Distributed under the MIT License. See `LICENSE` for more information.
+Distributed under the GNU General Public License (GPLv3). See `LICENSE` for more information.
 
 <!-- ACKNOWLEDGEMENTS -->
 ## Acknowledgements

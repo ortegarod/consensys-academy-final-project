@@ -1,4 +1,4 @@
-// SPDX-License-Identifier: GPL-3.0-or-later
+// SPDX-License-Identifier: GNU General Public License
 pragma solidity >=0.4.22 <0.8.0;
 
 contract Migrations {

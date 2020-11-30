@@ -23,7 +23,7 @@ contract("OnlineMarketplace", async accounts => {
 
     it("should create Product struct instance in orders mapping with unique order ID", async () => {
         let instance = await OnlineMarketplace.deployed();
-        await instance.buyItem(7, {value: web3.utils.toWei('1.110', 'ether'), from: accounts[0]});
+        await instance.buyItem(7, {value: web3.utils.toWei('0.010', 'ether'), from: accounts[0]});
 
         let result = await instance.orders(18, 7);
         assert(result.orderID.toNumber() === 18, "orderID not set correctly")

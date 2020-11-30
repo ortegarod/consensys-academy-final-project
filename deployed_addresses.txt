@@ -1,6 +1,4 @@
-#must deploy your smart contract(s) onto one of the Ethereum test networks
-#describe where your contract live (which testnet and address)
+The smart contract is deployed to the Rinkeby Ethereum test network.
 
-Smart contract will be deployed on Rinkeby testnet. 
+Rinkeby testnet contract address: 0x6487a3ce399561674976F933676c0ed40Ec5Bb19
 
-Rinkeby testnet contract address: 0x...

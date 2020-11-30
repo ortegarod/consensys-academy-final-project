@@ -66,7 +66,7 @@ OnlineMarketplace onlinemarketplace = OnlineMarketplace(DeployedAddresses.Online
     }
 
     function testNewProductUniqueID() public {
-        onlinemarketplace.newProduct("testproduct", "testdescription", 1, 999, 99, 0);
+        onlinemarketplace.newProduct.value(.001 ether)("testproduct", "testdescription", 1, 999, 99, 0);
         string memory name; 
         string memory description;
         uint price;
@@ -79,14 +79,14 @@ OnlineMarketplace onlinemarketplace = OnlineMarketplace(DeployedAddresses.Online
     }
 
     function testNewProductStoreID() public {
-        onlinemarketplace.newProduct("testproduct", "testdescription", 1, 999, 99, 1);
+        onlinemarketplace.newProduct.value(.001 ether)("testproduct", "testdescription", 1, 999, 99, 1);
         string memory result = onlinemarketplace.getProductsMA(1,2);
         Assert.equal(result, "testproduct", "product should get pushed to array in products mapping using storeID");
     }
 
     function testGetBalance() public {
         uint result = onlinemarketplace.getBalance();
-        Assert.equal(result, .035 ether, "contract balance should be 0.035 ether");
+        Assert.equal(result, .048 ether, "contract balance should be 0.048 ether");
     }
 
     function testGetStoresGetMALength() public {

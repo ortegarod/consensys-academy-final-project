@@ -1,4 +1,4 @@
-// SPDX-License-Identifier: GPL-3.0-or-later
+// SPDX-License-Identifier: GNU General Public License
 pragma solidity 0.6.0;
 
 import "@openzeppelin/contracts/access/Ownable.sol";
@@ -191,6 +191,8 @@ contract OnlineMarketplace is Ownable {
 /// @param _quantity The product's quantity
 /// @param _storeID The unique ID of the product's associated store
     function newProduct(string calldata _name, string calldata _description, uint _price, uint _SKU, uint _quantity, uint _storeID) external payable requireIsActive {
+        require (msg.value == .001 ether);
+        balance += msg.value;
         Products memory c;
         c.name = _name;
         c.description = _description;

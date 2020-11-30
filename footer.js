@@ -21,14 +21,25 @@ $(document).ready(function() {
             if (result == web3.utils.toChecksumAddress(accounts[0])) {
                 var a = document.getElementById("withdraw");
                 a.style.display = "block";
+                var b = document.getElementById("circuit-breaker");
+                b.style.display = "block";
             }
         })
     })
     $("#withdraw-contract-balance").click(withdrawAll)
+    $("#toggle-circuit-breaker").click(toggleCircuitBreaker)
+
 })
 
 function withdrawAll () {
     contractInstance.methods.withdrawAll().send()
+    .on("receipt", function(receipt){ 
+        location.reload()
+    })
+}
+
+function toggleCircuitBreaker () {
+    contractInstance.methods.toggleCircuitBreaker().send()
     .on("receipt", function(receipt){ 
         location.reload()
     })
